@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GGO</title>
+		<link rel='stylesheet' type='text/css' href='elements.css'></link>
+		<link rel='stylesheet' type='text/css' href='styles.css'></link>
+		<script src='js/pixi.min.js'></script>
+		<script src='js/config.js'></script>
+		<script src='js/js.cookie.js'></script>
+		<script src='js/AudioManager.js'></script>
+		<script src='js/states/Menu.js'></script>
+		<script src='js/states/GamePlay.js'></script>
+		<script src='js/states/Settings.js'></script>
+		<script src='js/states/About.js'></script>
+		<script src='js/howler.core.js'></script>
+		<script src='js/main.js'></script>
+    </head>
+    <body>
+		<div id='container'>
+			<div id='gameCanvas'></div>
+			<div id='gui'>
+				<div id='menu'>
+					<button onclick='enterState("gamePlay")'><span>Play</span></button>
+					<button onclick='enterState("settings")'><span>Settings</span></button>
+					<button onclick='enterState("about")'><span>About</span></button>
+
+					<form action='http://github.com/egordorichev'>
+						<button class='nospace'><span>Fork on GitHub</span></button>
+					</form>
+				</div>
+				<div id='gamePlay'>
+					TODO gp
+				</div>
+				<div id='settings'>
+					<div class='content'>
+						<input type='checkbox' id='music' name='music' onchange='updateCookie("music")' checked></input>
+						<label for='music'></label>
+						<input type='checkbox' id='sounds' name='sounds' onchange='updateCookie("sounds")' checked></input>
+						<label for='sounds'></label>
+					</div>
+					<button onclick='enterState("menu")'><span>Back</span></button>
+				</div>
+				<div id='about'>
+					<div class='content'>
+						Game was written by Egor Dorichev for Github Game Off 2016 in Java script
+						using howler.js, cookie.js and pixi.js frameworks.
+					</div>
+					<button onclick='enterState("menu")'><span>Back</span></button>
+				</div>
+			</div>
+		</div>
+		<script>
+			onDocumentReady();
+		</script>
+    </body>
+</html>
