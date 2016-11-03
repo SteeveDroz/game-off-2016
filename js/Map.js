@@ -3,12 +3,14 @@ var TileType =  {
 	MACHINE : 1,
 	SERVER : 2,
 	WIRE : 3,
-	ETHERNET_CONNECTOR : 4
+	ETHERNET_CONNECTOR : 4,
+	FILTER : 5
 };
 
 var ConnectorType = {
 	IN : 0,
-	OUT : 1
+	OUT : 1,
+	WIRE_CONNECTOR : 2
 };
 
 var connectors = [];
@@ -53,12 +55,8 @@ function Connector(tile, type, side) {
 
 			if(isInside(self.sprite.x, self.sprite.y,
 					self.sprite.width, self.sprite.height, x, y)) {
-				if (self.connection) {
-					self.connection.delete();
-				}
 
-				self.connected = false;
-				self.connection = null;
+				self.deleteConnection();
 			}
 		}
 	}, false);
@@ -76,6 +74,8 @@ Connector.prototype.updatePosition = function() {
 		this.sprite.position.set(x + 24, y + 48);
 	} else if(this.side == Side.LEFT) {
 		this.sprite.position.set(x, y + 24);
+	} else if(this.side == Side.CENTER) {
+		this.sprite.position.set(x + 24, y + 25);
 	}
 };
 
@@ -93,19 +93,31 @@ Connector.prototype.modifyConnection = function() {
 	}
 };
 
+Connector.prototype.deleteConnection = function() {
+	var other = this.connection.secondConnector;
+
+	if(this.connection.secondConnector == self) {
+		other = this.connection.firstConnector;
+	}
+
+	this.connected = false;
+	this.connection.delete();
+	this.connection = null;
+	other.connected = false;
+	other.connection = null;
+
+	console.log(connectors);
+};
+
 function Connection(firstConnector, secondConnector) {
 	this.firstConnector = firstConnector;
 	this.secondConnector = secondConnector;
-	this.sprite = new Sprite(textures["assets/images/connection.png"]);
-	this.sprite.position.set(this.firstConnector.sprite.x + 2,
-		this.firstConnector.sprite.y + 2);
+	this.sprite = new Graphics();
 
 	if(!secondConnector) {
-		this.ended = false;
-		this.placed = false;
+		this.connected = false;
 	} else {
-		this.ended = true;
-		this.placed = true;
+		this.connected = true;
 	}
 
 	mapScene.addChild(this.sprite);
@@ -113,8 +125,48 @@ function Connection(firstConnector, secondConnector) {
 
 	var self = this;
 
-	window.addEventListener("mouseup", function() {
-		self.placed = true;
+	window.addEventListener("mousedown", function(event) {
+		if(event.button == 2) {
+			var x = getClickX(event);
+			var y = getClickY(event);
+
+			x -= mapScene.position.x;
+			y -= mapScene.position.y;
+
+			if(isInside(self.sprite.x, self.sprite.y,
+					self.sprite.width, self.sprite.height, x, y)) {
+
+				self.firstConnector.deleteConnection();
+			}
+		}
+	}, false);
+
+	window.addEventListener("mouseup", function(event) {
+		if(event.button == 0) {
+			var con = null;
+
+			connectors.forEach(function(connector){
+				if(isInside(connector.sprite.x, connector.sprite.y,
+						connector.sprite.width, connector.sprite.height,
+						getClickX(event) - mapScene.x, getClickY(event) - mapScene.y)) {
+
+					con = connector;
+				}
+			});
+
+			if(con != null) {
+				if(!con.connection) { // TODO
+					self.connected = true;
+					self.secondConnector = con;
+					con.connected = true;
+					con.connection = self;
+
+					self.redraw();
+				} else {
+					console.log("TODO: multiple connections");
+				}
+			}
+		}
 	}, false);
 
 	window.addEventListener("mousemove", function(event) {
@@ -123,6 +175,8 @@ function Connection(firstConnector, secondConnector) {
 }
 
 Connection.prototype.delete = function() {
+	this.connected = false;
+
 	mapScene.removeChild(this.sprite);
 
 	var index = connections.indexOf(this);
@@ -130,22 +184,33 @@ Connection.prototype.delete = function() {
 };
 
 Connection.prototype.update = function(event) {
-	if(!this.ended && !this.placed) {
-		var targetX = getClickX(event) - this.sprite.x;
-		var targetY = getClickY(event) - this.sprite.y;
-
-		// this.sprite.anchor.x = 0.5;
-		// this.sprite.anchor.y = 0.5;
-		this.sprite.rotation = Math.atan2(targetY, targetX) * (180 / Math.PI) / 2;
-		// this.sprite.width = targetX;
+	if(!this.connected) {
+		this.redraw();
 	}
-}
+};
+
+Connection.prototype.redraw = function() {
+	this.sprite.clear();
+	this.sprite.lineStyle(4, 0x000000);
+	this.sprite.moveTo(this.firstConnector.sprite.x + 8,
+		this.firstConnector.sprite.y + 8);
+
+	if(this.connected) {
+		this.sprite.lineTo(this.secondConnector.sprite.x + 8,
+			this.secondConnector.sprite.y + 8);
+	} else {
+		this.sprite.lineTo(getClickX(event) - mapScene.x, getClickY(event) - mapScene.y);
+	}
+
+	this.sprite.endFill();
+};
 
 var Side = {
 	UP : 0,
 	RIGHT : 1,
 	DOWN : 2,
-	LEFT : 3
+	LEFT : 3,
+	CENTER : 4
 };
 
 function Tile(id, map) {
@@ -163,14 +228,14 @@ function Tile(id, map) {
 }
 
 Tile.prototype.addConnector = function(type, side) {
-	if(!this.connactable) {
-		return;
-	}
+	// if(!this.connactable) {
+	// 	return;
+	// }
 
 	var connector = new Connector(this, type, side);
 	this.connectors[side] = connector;
 
-	mapScene.addChild(connector.sprite)
+	mapScene.addChild(connector.sprite);
 };
 
 Tile.prototype.setPosition = function(x, y) {
@@ -245,6 +310,20 @@ function EthernetConnector(map) {
 	return tile;
 }
 
+function Filter(map) {
+	var machine = new Machine(5, map);
+
+	machine.name = "filter"
+	machine.type = TileType.FILTER;
+	machine.maxCpu = 500;
+	machine.maxMemory = 500;
+	machine.addConnector(ConnectorType.IN, Side.UP);
+	machine.addConnector(ConnectorType.OUT, Side.DOWN);
+
+	return machine;
+}
+
+
 function Map(width, height, scene) {
 	mapScene = new Container();
 	mapScene.position.set(200, 0);
@@ -262,8 +341,9 @@ function Map(width, height, scene) {
 		}
 	}
 
-	this.addServer(5, 5);
 	this.addEthernetConnector(5, 1);
+	this.addFilter(5, 3);
+	this.addServer(5, 5);
 }
 
 Map.prototype.getTile = function(x, y) {
@@ -271,11 +351,15 @@ Map.prototype.getTile = function(x, y) {
 };
 
 Map.prototype.addServer = function(x, y) {
-	this.setTile(Server(this), x, y);
+	this.setTile(new Server(this), x, y);
+};
+
+Map.prototype.addFilter = function(x, y) {
+	this.setTile(new Filter(this), x, y);
 };
 
 Map.prototype.addEthernetConnector = function(x, y) {
-	this.setTile(EthernetConnector(this), x, y);
+	this.setTile(new EthernetConnector(this), x, y);
 };
 
 Map.prototype.setTileById = function(id, x, y) {

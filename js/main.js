@@ -9,6 +9,7 @@ function onDocumentReady() {
 		"assets/images/tile2.png").add(
 		"assets/images/tile3.png").add(
 		"assets/images/tile4.png").add(
+		"assets/images/tile5.png").add(
 		"assets/images/connector0.png").add(
 		"assets/images/connector1.png").add(
 		"assets/images/connection.png").add(
