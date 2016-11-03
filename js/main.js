@@ -1,30 +1,29 @@
-var viewSize = [1280, 720];
-var ratio = viewSize[0] / viewSize[1];
-var stage;
-var renderer;
-
-var states = {};
-var currentState;
-var gameScene;
-var gameOverScene;
-var textures;
-var background;
-
-var audioManager;
-
 function onDocumentReady() {
-	audioManager = new AudioManager();
 	stage = new Container();
-	renderer = autoDetectRenderer(viewSize[0], viewSize[1]);
 
+	renderer = autoDetectRenderer(viewSize[0], viewSize[1], null);
 	document.getElementById("gameCanvas").appendChild(renderer.view);
 
-	loader.add("ggo.json", "assets/images/ggo.json").add(
+	loader.add("assets/images/tile0.png").add(
+		"assets/images/tile1.png").add(
+		"assets/images/tile2.png").add(
+		"assets/images/tile3.png").add(
+		"assets/images/tile4.png").add(
+		"assets/images/connector0.png").add(
+		"assets/images/connector1.png").add(
+		"assets/images/connection.png").add(
 		"background", "assets/images/background.png").load(setup);
+
+	window.onresize = function() {
+		resize();
+	};
 }
 
 function setup() {
-	textures = resources["ggo.json"].textures;
+	audioManager = new AudioManager();
+	textures = TextureCache;
+
+	console.log(textures);
 
 	// States setup
 
@@ -107,13 +106,19 @@ function updateCookie(cookie) {
 }
 
 function resize() {
-	var width = window.innerWidth;
-	var height = window.innerHeight;
-
-	renderer.view.style.width = width + 'px';
-	renderer.view.style.height = height + 'px';
+	// var width = 0;
+	// var height = 0;
+	//
+	// if(window.innerWidth / window.innerHeight >= ratio) {
+	// 	width = window.innerHeight * ratio;
+	// 	height = window.innerHeight;
+	// } else {
+	// 	width = window.innerWidth;
+	// 	height = window.innerWidth / ratio;
+	// }
+	//
+	// console.log(renderer);
+	//
+	// renderer.view.style.width = width + 'px';
+	// renderer.view.style.height = height + 'px';
 }
-
-window.onresize = function(event) {
-	resize();
-};

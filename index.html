@@ -6,8 +6,9 @@
 		<link rel='stylesheet' type='text/css' href='styles.css'></link>
 		<script src='js/pixi.min.js'></script>
 		<script src='js/config.js'></script>
+        <script src='js/AudioManager.js'></script>
 		<script src='js/js.cookie.js'></script>
-		<script src='js/AudioManager.js'></script>
+        <script src='js/Map.js'></script>
 		<script src='js/states/Menu.js'></script>
 		<script src='js/states/GamePlay.js'></script>
 		<script src='js/states/Settings.js'></script>
@@ -15,7 +16,7 @@
 		<script src='js/howler.core.js'></script>
 		<script src='js/main.js'></script>
     </head>
-    <body>
+    <body oncontextmenu="return false;">
 		<div id='container'>
 			<div id='gameCanvas'></div>
 			<div id='gui'>
@@ -29,7 +30,8 @@
 					</form>
 				</div>
 				<div id='gamePlay'>
-					TODO gp
+	                <div id='left-panel'></div>
+                    <div id='right-panel'></div>
 				</div>
 				<div id='settings'>
 					<div class='content'>

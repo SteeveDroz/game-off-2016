@@ -29,6 +29,24 @@
 
 }
 
+#left-panel {
+    left: 0;
+    position: fixed;
+    width: 198px;
+    height: 100%;
+    border-right: solid black 2px;
+    background-color: #979797;
+}
+
+#right-panel {
+    right: 0;
+    position: fixed;
+    width: 198px;
+    height: 100%;
+    border-left: solid black 2px;
+    background-color: #979797;
+}
+
 #settings {
 	position: absolute;
 	top: 50%;
