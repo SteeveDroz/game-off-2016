@@ -19,8 +19,7 @@ var connections = [];
 function Connector(tile, type, side) {
 	this.tile = tile;
 	this.side = side;
-	this.connected = false;
-	this.connection = null;
+	this.type = type;
 
 	this.sprite = new Sprite(textures["assets/images/connector" + type + ".png"]);
 	this.updatePosition();
@@ -40,9 +39,7 @@ function Connector(tile, type, side) {
 			if(isInside(self.sprite.x, self.sprite.y,
 					self.sprite.width, self.sprite.height, x, y)) {
 
-				if (self.connected) {
-					self.modifyConnection();
-				} else {
+				if(!this.connection) {
 					self.createConnection();
 				}
 			}
@@ -81,38 +78,17 @@ Connector.prototype.updatePosition = function() {
 
 Connector.prototype.createConnection = function() {
 	this.connection = new Connection(this);
-	this.connected = true;
-};
-
-Connector.prototype.modifyConnection = function() {
-	this.connection.ended = false;
-
-	if(this.connection.firstConnector != this) {
-		this.connection.firstConnector = this.connection.secondConnector;
-		this.connection.secondConnector = this;
-	}
 };
 
 Connector.prototype.deleteConnection = function() {
-	var other = this.connection.secondConnector;
-
-	if(this.connection.secondConnector == self) {
-		other = this.connection.firstConnector;
-	}
-
-	this.connected = false;
 	this.connection.delete();
-	this.connection = null;
-	other.connected = false;
-	other.connection = null;
-
-	console.log(connectors);
 };
 
 function Connection(firstConnector, secondConnector) {
 	this.firstConnector = firstConnector;
 	this.secondConnector = secondConnector;
 	this.sprite = new Graphics();
+	this.mouseUp = false;
 
 	if(!secondConnector) {
 		this.connected = false;
@@ -125,23 +101,11 @@ function Connection(firstConnector, secondConnector) {
 
 	var self = this;
 
-	window.addEventListener("mousedown", function(event) {
-		if(event.button == 2) {
-			var x = getClickX(event);
-			var y = getClickY(event);
-
-			x -= mapScene.position.x;
-			y -= mapScene.position.y;
-
-			if(isInside(self.sprite.x, self.sprite.y,
-					self.sprite.width, self.sprite.height, x, y)) {
-
-				self.firstConnector.deleteConnection();
-			}
-		}
-	}, false);
-
 	window.addEventListener("mouseup", function(event) {
+		if(self.connected) {
+			return;
+		}
+
 		if(event.button == 0) {
 			var con = null;
 
@@ -155,17 +119,42 @@ function Connection(firstConnector, secondConnector) {
 			});
 
 			if(con != null) {
-				if(!con.connection) { // TODO
+				if(con.connection) {
+					self.delete();
+				}
+
+				if(con == self.firstConnector) {
+					self.delete();
+				}
+
+				if(con == self.secondConnector) {
+					self.delete();
+				}
+
+				// if(con.type == self.firstConnector.type) {
+				// 	self.delete();
+				// }
+
+				if(con.tile != self.firstConnector.tile) {
+					var deltaX = con.tile.x - self.firstConnector.tile.x;
+					var deltaY = con.tile.y - self.firstConnector.tile.y;
+
+					if(deltaX > 2 || deltaX < -2 || deltaY > 2 || deltaY < -2) {
+						self.delete();
+					}
+
 					self.connected = true;
 					self.secondConnector = con;
-					con.connected = true;
 					con.connection = self;
 
 					self.redraw();
 				} else {
-					console.log("TODO: multiple connections");
+					console.log("can't wire to the same tile");
+					self.delete();
 				}
 			}
+
+			self.mouseUp = true;
 		}
 	}, false);
 
@@ -175,12 +164,18 @@ function Connection(firstConnector, secondConnector) {
 }
 
 Connection.prototype.delete = function() {
-	this.connected = false;
-
 	mapScene.removeChild(this.sprite);
 
 	var index = connections.indexOf(this);
 	connections.splice(index);
+
+	if(this.firstConnector != null) {
+		delete this.firstConnector.connection;
+	}
+
+	if(this.secondConnector != null) {
+		delete this.secondConnector.connection;
+	}
 };
 
 Connection.prototype.update = function(event) {
@@ -198,8 +193,10 @@ Connection.prototype.redraw = function() {
 	if(this.connected) {
 		this.sprite.lineTo(this.secondConnector.sprite.x + 8,
 			this.secondConnector.sprite.y + 8);
-	} else {
+	} else if(!this.mouseUp) {
 		this.sprite.lineTo(getClickX(event) - mapScene.x, getClickY(event) - mapScene.y);
+	} else {
+		this.delete();
 	}
 
 	this.sprite.endFill();
