@@ -1,11 +1,15 @@
+var filesLost = 0;
+var fileSpeed = 0.5;
+
 var TileType =  {
 	NONE : 0,
 	MACHINE : 1,
 	SERVER : 2,
 	WIRE : 3,
 	ETHERNET_CONNECTOR : 4,
-	FILTER : 5,
-	LINE_CONNECTOR : 6
+	SCANNER : 5,
+	LINE_CONNECTOR : 6,
+	ANTIVIRUS : 7
 };
 
 var ConnectorType = {
@@ -14,8 +18,8 @@ var ConnectorType = {
 };
 
 var FileType = {
-	NORMAL : 0,
-	VIRUS : 1
+	NORMAL : 1,
+	VIRUS : 2
 };
 
 var connectors = [];
@@ -26,15 +30,16 @@ function File(type) {
 	this.type = type;
 	this.known = false;
 	this.size = Math.floor(Math.random() * 5) + 1;
-	this.sprite = new Sprite(textures["assets/images/file" + ((this.known) ? this.type + 1: 0) + ".png"]);
+	this.sprite = new Sprite(textures["assets/images/file" + ((this.known) ? this.type : 0) + ".png"]);
 	this.moving = false;
 	this.target = null;
+	this.connection = null;
 }
 
 File.prototype.scan = function() {
 	if(!this.known) {
 		this.known = true;
-		this.sprite = Sprite(textures["assets/images/file" + (this.type + 1) + ".png"]);
+		this.sprite = new Sprite(textures["assets/images/file" + (this.type) + ".png"]);
 	}
 };
 
@@ -47,7 +52,7 @@ File.prototype.hide = function() {
 };
 
 File.prototype.setPosition = function(connector) {
-	this.sprite.position.set(connector.sprite.x, connector.sprite.y);
+	this.sprite.position.set(connector.sprite.x - 8, connector.sprite.y - 8);
 };
 
 File.prototype.moveTo = function(connector) {
@@ -57,20 +62,23 @@ File.prototype.moveTo = function(connector) {
 
 File.prototype.update = function() {
 	if(this.moving && this.target) {
-		targetX = this.target.sprite.x - this.sprite.x;
-		targetY = this.target.sprite.y - this.sprite.y;
+		targetX = (this.target.sprite.x - 8) - this.sprite.x;
+		targetY = (this.target.sprite.y- 8) - this.sprite.y;
 
-		// Normalize
+		if(targetX == 0 && targetY == 0) {
+			this.connection.endTransfer(this);
+
+			return;
+		}
+
 		pathLength = Math.sqrt(targetX * targetX + targetY * targetY);
 		targetX = targetX / pathLength;
 		targetY = targetY / pathLength;
 
-
-		// Move towards the player
-		this.sprite.x += targetX; // * this.speed
-		this.sprite.y += targetY;
+		this.sprite.x += targetX * fileSpeed;
+		this.sprite.y += targetY * fileSpeed;
 	}
-}
+};
 
 function Connector(tile, type, side) {
 	this.tile = tile;
@@ -138,6 +146,24 @@ Connector.prototype.createConnection = function() {
 
 Connector.prototype.deleteConnection = function() {
 	this.connection.delete();
+};
+
+Connector.prototype.transferFile = function(file) {
+	if(!this.connection || !this.connection.firstConnector || !this.connection.secondConnector) {
+		filesLost++;
+
+		return;
+	}
+
+	if(this == this.connection.firstConnector) {
+		this.connection.transferFile(file, this, this.connection.secondConnector);
+	} else {
+		this.connection.transferFile(file, this, this.connection.firstConnector);
+	}
+};
+
+Connector.prototype.onRecive = function(file) {
+
 };
 
 function Connection(firstConnector, secondConnector) {
@@ -223,8 +249,7 @@ function Connection(firstConnector, secondConnector) {
 Connection.prototype.delete = function() {
 	mapScene.removeChild(this.sprite);
 
-	var index = connections.indexOf(this);
-	connections.splice(index);
+	remove(connections, this);
 
 	if(this.firstConnector != null) {
 		delete this.firstConnector.connection;
@@ -259,23 +284,29 @@ Connection.prototype.redraw = function() {
 	this.sprite.endFill();
 };
 
-Connection.prototype.addFile = function(file) {
-	if(!this.secondConnector || !this.firstConnector) {
-		return;
-	}
-
+Connection.prototype.transferFile = function(file, from, to) {
 	this.files.push(file);
 	files.push(file);
 
-	if(this.secondConnector.type == ConnectorType.IN) {
-		file.setPosition(this.firstConnector);
-		file.moveTo(this.secondConnector);
-	} else {
-		file.setPosition(this.secondConnector);
-		file.moveTo(this.secondConnector);
-	}
+	file.connection = this;
+	file.setPosition(from);
+	file.moveTo(to);
 
 	file.show();
+};
+
+Connection.prototype.endTransfer = function(file) {
+	var index = this.files.indexOf(file);
+	this.files.splice(index);
+
+	var target = file.target;
+
+	file.hide();
+	file.connection = null;
+	file.moving = false;
+	file.target = null;
+
+	target.onRecive(file);
 };
 
 var Side = {
@@ -300,12 +331,9 @@ function Tile(id, map) {
 	mapScene.addChild(this.sprite);
 }
 
-Tile.prototype.addConnector = function(type, side) {
-	// if(!this.connactable) {
-	// 	return;
-	// }
-
+Tile.prototype.addConnector = function(type, side, callback) {
 	var connector = new Connector(this, type, side);
+	connector.onRecive = callback || function(file) {};
 	this.connectors[side] = connector;
 
 	mapScene.addChild(connector.sprite);
@@ -357,10 +385,45 @@ function Server(map) {
 	this.type = TileType.SERVER;
 	this.maxCpu = 1000;
 	this.maxMemory = 1000;
-	this.addConnector(ConnectorType.IN, Side.UP);
+	this.files = [];
+	this.delay = 0;
+	this.maxDelay = 20;
+
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
+		self.files.push(file);
+		self.cpu += file.size * 10;
+
+		if(file.type == FileType.VIRUS) {
+			this.dead = true;
+			gameOver = true;
+		}
+	});
 }
 
 extend(Machine, Server);
+
+Server.prototype.update = function() {
+	Machine.prototype.update();
+
+	if(this.dead) {
+		gameOver = true;
+
+		return;
+	}
+
+	if(this.delay <= 0) {
+		if(this.files.length > 0) {
+			var file = this.files.shift();
+			this.cpu -= file.size * 10;
+
+			remove(files, file);
+		}
+
+		this.delay = this.maxDelay;
+	} else {
+		this.delay--;
+	}
+};
 
 function EthernetConnector(map) {
 	Machine.call(this, 4, map);
@@ -378,13 +441,15 @@ extend(Machine, EthernetConnector);
 EthernetConnector.prototype.update = function() {
 	Machine.prototype.update();
 
+	if(this.dead) {
+		return;
+	}
+
 	if(this.delay <= 0) {
 		var file = this.randomFile();
 
 		if(this.connectors[Side.DOWN].connection) {
-			console.log("add file");
-
-			this.connectors[Side.DOWN].connection.addFile(file);
+			this.connectors[Side.DOWN].transferFile(file);
 		}
 
 		this.delay = this.maxDelay;
@@ -394,40 +459,159 @@ EthernetConnector.prototype.update = function() {
 };
 
 EthernetConnector.prototype.randomFile = function() {
-	if(Math.random() < 0.02) {
+	if(Math.random() < 0.1) {
 		return new File(FileType.VIRUS);
 	} else {
 		return new File(FileType.NORMAL);
 	}
 };
 
-function Filter(map) {
+function Scanner(map) {
 	Machine.call(this, 5, map);
 
-	this.name = "filter"
-	this.type = TileType.FILTER;
+	this.name = "scanner"
+	this.type = TileType.SCANNER;
 	this.maxCpu = 500;
 	this.maxMemory = 500;
-	this.addConnector(ConnectorType.IN, Side.UP);
+	this.files = [];
+	this.delay = 0;
+	this.maxDelay = 30;
+
+	var self = this;
+
 	this.addConnector(ConnectorType.OUT, Side.DOWN);
+
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
+		file.scan();
+		self.files.push(file);
+		self.cpu += file.size * 10;
+	});
 }
 
-extend(Machine, Filter);
+extend(Machine, Scanner);
+
+Scanner.prototype.update = function() {
+	Machine.prototype.update();
+
+	if(this.dead) {
+		return;
+	}
+
+	if(this.delay <= 0) {
+		if(this.files.length > 0) {
+			var file = this.files.shift();
+			this.cpu -= file.size * 10;
+
+			this.connectors[Side.DOWN].transferFile(file);
+		}
+
+		this.delay = this.maxDelay;
+	} else {
+		this.delay--;
+	}
+};
 
 function LineConnector(map) {
 	Machine.call(this, 6, map);
 
-	this.name = "line connector"
+	this.name = "line connector";
 	this.type = TileType.LINE_CONNECTOR;
 	this.maxCpu = 500;
 	this.maxMemory = 500;
-	this.addConnector(ConnectorType.IN, Side.UP);
-	this.addConnector(ConnectorType.IN, Side.RIGHT);
-	this.addConnector(ConnectorType.IN, Side.LEFT);
+	this.files = [];
+	this.delay = 0;
+	this.maxDelay = 20;
+
+	var self = this;
+
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
+		self.files.push(file);
+		self.cpu += file.size * 10;
+	});
+
+	this.addConnector(ConnectorType.IN, Side.RIGHT, function(file) {
+		self.files.push(file);
+		self.cpu += file.size * 10;
+	});
+
+	this.addConnector(ConnectorType.IN, Side.LEFT, function(file) {
+		self.files.push(file);
+		self.cpu += file.size * 10;
+	});
+
 	this.addConnector(ConnectorType.OUT, Side.DOWN);
 }
 
 extend(Machine, LineConnector);
+
+LineConnector.prototype.update = function() {
+	Machine.prototype.update();
+
+	if(this.dead) {
+		return;
+	}
+
+	if(this.delay <= 0) {
+		if(this.files.length > 0) {
+			var file = this.files.shift();
+			this.cpu -= file.size * 10;
+
+			this.connectors[Side.DOWN].transferFile(file);
+		}
+
+		this.delay = this.maxDelay;
+	} else {
+		this.delay--;
+	}
+};
+
+function Antivirus(map) {
+	Machine.call(this, 7, map);
+
+	this.name = "antivirus"
+	this.type = TileType.ANTIVIRUS;
+	this.maxCpu = 500;
+	this.maxMemory = 500;
+	this.files = [];
+	this.delay = 0;
+	this.maxDelay = 30;
+
+	var self = this;
+
+	this.addConnector(ConnectorType.OUT, Side.DOWN);
+
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
+		if(file.known && file.type == FileType.VIRUS) {
+			return;
+		}
+
+		self.files.push(file);
+		self.cpu += file.size * 10;
+	});
+}
+
+extend(Machine, Antivirus);
+
+Antivirus.prototype.update = function() {
+	Machine.prototype.update();
+
+	if(this.dead) {
+		return;
+	}
+
+	if(this.delay <= 0) {
+		if(this.files.length > 0) {
+			var file = this.files.shift();
+			this.cpu -= file.size * 10;
+
+			this.connectors[Side.DOWN].transferFile(file);
+		}
+
+		this.delay = this.maxDelay;
+	} else {
+		this.delay--;
+	}
+};
 
 function Map(width, height, scene) {
 	mapScene = new Container();
@@ -449,8 +633,8 @@ function Map(width, height, scene) {
 	}
 
 	this.addEthernetConnector(5, 1);
-	this.addFilter(5, 3);
-	this.addLineConnector(5, 5);
+	this.addScanner(5, 3);
+	this.addAntivirus(5, 5);
 	this.addServer(5, 7);
 }
 
@@ -466,8 +650,12 @@ Map.prototype.addLineConnector = function(x, y) {
 	this.setTile(new LineConnector(this), x, y);
 };
 
-Map.prototype.addFilter = function(x, y) {
-	this.setTile(new Filter(this), x, y);
+Map.prototype.addAntivirus = function(x, y) {
+	this.setTile(new Antivirus(this), x, y);
+};
+
+Map.prototype.addScanner = function(x, y) {
+	this.setTile(new Scanner(this), x, y);
 };
 
 Map.prototype.addEthernetConnector = function(x, y) {

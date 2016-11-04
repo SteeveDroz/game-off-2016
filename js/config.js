@@ -22,6 +22,7 @@ var textures;
 var background;
 
 var audioManager;
+var gameOver = false;
 
 function getClickX(event) {
 	var x;
@@ -59,4 +60,9 @@ function extend(base, sub) {
 	emptyConstructor.prototype = base.prototype;
 	sub.prototype = new emptyConstructor();
 	sub.prototype.constructor = sub;
+}
+
+function remove(array, element) {
+	var index = array.indexOf(element);
+	array.splice(index);
 }

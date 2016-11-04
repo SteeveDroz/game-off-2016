@@ -21,4 +21,8 @@ GamePlay.prototype.leave = function() {
 
 GamePlay.prototype.update = function() {
 	this.map.update();
+
+	if(gameOver) {
+		enterState("menu");
+	}
 };

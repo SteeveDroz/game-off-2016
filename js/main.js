@@ -11,10 +11,12 @@ function onDocumentReady() {
 		"assets/images/tile4.png").add(
 		"assets/images/tile5.png").add(
 		"assets/images/tile6.png").add(
+		"assets/images/tile7.png").add(
 		"assets/images/connector0.png").add(
 		"assets/images/connector1.png").add(
 		"assets/images/file0.png").add(
 		"assets/images/file1.png").add(
+		"assets/images/file2.png").add(
 		"background", "assets/images/background.png").load(setup);
 
 	window.onresize = function() {
