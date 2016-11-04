@@ -30,8 +30,21 @@
 					</form>
 				</div>
 				<div id='gamePlay'>
-	                <div id='left-panel'></div>
-                    <div id='right-panel'></div>
+	                <div id='left-panel'>
+                        <b>Server</b>
+                        <br/>
+                        CPU: <span id='serverCPU'>0%</span>
+                        <br/>
+                        MEMORY: <span id='serverMEM'>0%</span>
+                        <br/>
+                        FILES LOST: <span id='filesLost'>0</span>
+                        <br/>
+                    </div>
+                    <div id='right-panel'>
+                        Wave <span id='wave'>1</span>
+                        <br/>
+                        <button id='start' onclick='startOrPauseGame()'>Start</button>
+                    </div>
 				</div>
 				<div id='settings'>
 					<div class='content'>

@@ -1,6 +1,3 @@
-var filesLost = 0;
-var fileSpeed = 0.5;
-
 var TileType =  {
 	NONE : 0,
 	MACHINE : 1,
@@ -9,7 +6,8 @@ var TileType =  {
 	ETHERNET_CONNECTOR : 4,
 	SCANNER : 5,
 	LINE_CONNECTOR : 6,
-	ANTIVIRUS : 7
+	ANTIVIRUS : 7,
+	TRASH : 8
 };
 
 var ConnectorType = {
@@ -249,7 +247,8 @@ function Connection(firstConnector, secondConnector) {
 Connection.prototype.delete = function() {
 	mapScene.removeChild(this.sprite);
 
-	remove(connections, this);
+	var index = connections.indexOf(this);
+	connections.splice(index);
 
 	if(this.firstConnector != null) {
 		delete this.firstConnector.connection;
@@ -381,17 +380,18 @@ Machine.prototype.update = function() {
 function Server(map) {
 	Machine.call(this, 2, map);
 
-	this.name = "server"
+	this.name = "server";
 	this.type = TileType.SERVER;
-	this.maxCpu = 1000;
-	this.maxMemory = 1000;
 	this.files = [];
 	this.delay = 0;
-	this.maxDelay = 20;
+	this.maxDelay = 200;
+
+	var self = this;
 
 	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
 		self.files.push(file);
-		self.cpu += file.size * 10;
+
+		self.cpu =+ file.size * 5;
 
 		if(file.type == FileType.VIRUS) {
 			this.dead = true;
@@ -403,7 +403,9 @@ function Server(map) {
 extend(Machine, Server);
 
 Server.prototype.update = function() {
-	Machine.prototype.update();
+	if(this.cpu >= this.maxCpu || this.memory >= this.maxMemory) {
+		this.dead = true;
+	}
 
 	if(this.dead) {
 		gameOver = true;
@@ -411,12 +413,29 @@ Server.prototype.update = function() {
 		return;
 	}
 
+	this.memory = this.files.length * 5;
+
 	if(this.delay <= 0) {
 		if(this.files.length > 0) {
 			var file = this.files.shift();
-			this.cpu -= file.size * 10;
+			this.cpu -= file.size * 5;
 
-			remove(files, file);
+			if(this.cpu < 0) {
+				this.cpu = 0;
+			}
+
+			var index = this.files.indexOf(file);
+			if(index >= 0) {
+				this.files.splice(index);
+			}
+
+			// index = files.indexOf(file); FIXME: bugs
+			//
+			// if(index >= 0) {
+			//  	files.splice(index);
+			// }
+
+			console.log(files);
 		}
 
 		this.delay = this.maxDelay;
@@ -439,7 +458,9 @@ function EthernetConnector(map) {
 extend(Machine, EthernetConnector);
 
 EthernetConnector.prototype.update = function() {
-	Machine.prototype.update();
+	if(this.cpu >= this.maxCpu || this.memory >= this.maxMemory) {
+		this.dead = true;
+	}
 
 	if(this.dead) {
 		return;
@@ -469,7 +490,7 @@ EthernetConnector.prototype.randomFile = function() {
 function Scanner(map) {
 	Machine.call(this, 5, map);
 
-	this.name = "scanner"
+	this.name = "scanner";
 	this.type = TileType.SCANNER;
 	this.maxCpu = 500;
 	this.maxMemory = 500;
@@ -491,7 +512,9 @@ function Scanner(map) {
 extend(Machine, Scanner);
 
 Scanner.prototype.update = function() {
-	Machine.prototype.update();
+	if(this.cpu >= this.maxCpu || this.memory >= this.maxMemory) {
+		this.dead = true;
+	}
 
 	if(this.dead) {
 		return;
@@ -568,7 +591,7 @@ LineConnector.prototype.update = function() {
 function Antivirus(map) {
 	Machine.call(this, 7, map);
 
-	this.name = "antivirus"
+	this.name = "antivirus";
 	this.type = TileType.ANTIVIRUS;
 	this.maxCpu = 500;
 	this.maxMemory = 500;
@@ -580,8 +603,11 @@ function Antivirus(map) {
 
 	this.addConnector(ConnectorType.OUT, Side.DOWN);
 
+	this.addConnector(ConnectorType.OUT, Side.LEFT);
+
 	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
 		if(file.known && file.type == FileType.VIRUS) {
+			self.connectors[Side.LEFT].transferFile(file);
 			return;
 		}
 
@@ -613,6 +639,35 @@ Antivirus.prototype.update = function() {
 	}
 };
 
+function Trash(map) {
+	Machine.call(this, 8, map);
+
+	this.name = "trash";
+	this.type = TileType.TRASH;
+
+	// this.addConnector(ConnectorType.IN, Side.UP, function(file) { // FIXME
+	// 	var index = files.indexOf(file);
+	// 	files.splice(index);
+	// });
+	//
+	// this.addConnector(ConnectorType.IN, Side.RIGHT, function(file) {
+	// 	var index = files.indexOf(file);
+	// 	files.splice(index);
+	// });
+	//
+	// this.addConnector(ConnectorType.IN, Side.DOWN, function(file) {
+	// 	var index = files.indexOf(file);
+	// 	files.splice(index);
+	// });
+	//
+	// this.addConnector(ConnectorType.IN, Side.LEFT, function(file) {
+	// 	var index = files.indexOf(file);
+	// 	files.splice(index);
+	// });
+}
+
+extend(Machine, Trash);
+
 function Map(width, height, scene) {
 	mapScene = new Container();
 	mapScene.position.set(200, 0);
@@ -623,6 +678,7 @@ function Map(width, height, scene) {
 	this.terrain = new Array(width);
 	this.width = width;
 	this.height = height;
+	this.server = null;
 
 	for(var x = 0; x < this.width; x++) {
 		this.terrain[x] = new Array(this.width);
@@ -635,6 +691,7 @@ function Map(width, height, scene) {
 	this.addEthernetConnector(5, 1);
 	this.addScanner(5, 3);
 	this.addAntivirus(5, 5);
+	this.addTrash(3, 5);
 	this.addServer(5, 7);
 }
 
@@ -643,7 +700,8 @@ Map.prototype.getTile = function(x, y) {
 };
 
 Map.prototype.addServer = function(x, y) {
-	this.setTile(new Server(this), x, y);
+	this.server = new Server(this);
+	this.setTile(this.server, x, y);
 };
 
 Map.prototype.addLineConnector = function(x, y) {
@@ -652,6 +710,10 @@ Map.prototype.addLineConnector = function(x, y) {
 
 Map.prototype.addAntivirus = function(x, y) {
 	this.setTile(new Antivirus(this), x, y);
+};
+
+Map.prototype.addTrash = function(x, y) {
+	this.setTile(new Trash(this), x, y);
 };
 
 Map.prototype.addScanner = function(x, y) {
@@ -675,6 +737,10 @@ Map.prototype.setTile = function(tile, x, y) {
 };
 
 Map.prototype.update = function() {
+	if(!gameStarted) {
+		return;
+	}
+
 	for(var x = 0; x < this.width; x++) {
 		for(var y = 0; y < this.height; y++) {
 			this.terrain[x][y].update();

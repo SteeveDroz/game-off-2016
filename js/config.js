@@ -23,6 +23,10 @@ var background;
 
 var audioManager;
 var gameOver = false;
+var gameStarted = false;
+
+var filesLost = 0;
+var fileSpeed = 0.5;
 
 function getClickX(event) {
 	var x;
@@ -62,7 +66,9 @@ function extend(base, sub) {
 	sub.prototype.constructor = sub;
 }
 
-function remove(array, element) {
-	var index = array.indexOf(element);
-	array.splice(index);
+function startOrPauseGame() {
+	gameStarted = !gameStarted;
+
+	var button = document.getElementById("start");
+	button.innerHTML = (gameStarted) ? "Pause" : "Start";
 }

@@ -32,19 +32,21 @@
 #left-panel {
     left: 0;
     position: fixed;
-    width: 198px;
+    width: 178px;
     height: 100%;
     border-right: solid black 2px;
     background-color: #979797;
+    padding: 10px;
 }
 
 #right-panel {
     right: 0;
     position: fixed;
-    width: 198px;
+    width: 178px;
     height: 100%;
     border-left: solid black 2px;
     background-color: #979797;
+    padding: 10px;
 }
 
 #settings {

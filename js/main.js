@@ -54,7 +54,9 @@ function update() {
 }
 
 function enterState(state) {
-	if(currentState != undefined) {
+	gameOver = false;
+
+	if(currentState) {
 		currentState.leave();
 	}
 
