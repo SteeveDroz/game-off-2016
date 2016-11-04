@@ -10,9 +10,11 @@ function onDocumentReady() {
 		"assets/images/tile3.png").add(
 		"assets/images/tile4.png").add(
 		"assets/images/tile5.png").add(
+		"assets/images/tile6.png").add(
 		"assets/images/connector0.png").add(
 		"assets/images/connector1.png").add(
-		"assets/images/connection.png").add(
+		"assets/images/file0.png").add(
+		"assets/images/file1.png").add(
 		"background", "assets/images/background.png").load(setup);
 
 	window.onresize = function() {
@@ -23,8 +25,6 @@ function onDocumentReady() {
 function setup() {
 	audioManager = new AudioManager();
 	textures = TextureCache;
-
-	console.log(textures);
 
 	// States setup
 

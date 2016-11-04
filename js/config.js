@@ -50,3 +50,13 @@ function getClickY(event) {
 function isInside(x, y, width, height, px, py) {
 	return (px >= x && px <= x + width && py >= y && py <= y + height);
 }
+
+function emptyConstructor() {
+
+}
+
+function extend(base, sub) {
+	emptyConstructor.prototype = base.prototype;
+	sub.prototype = new emptyConstructor();
+	sub.prototype.constructor = sub;
+}
