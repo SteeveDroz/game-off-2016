@@ -7,7 +7,9 @@ var TileType =  {
 	SCANNER : 5,
 	LINE_CONNECTOR : 6,
 	ANTIVIRUS : 7,
-	TRASH : 8
+	TRASH : 8,
+	SWITCH : 9,
+	AUTO_SWITCH : 10
 };
 
 var ConnectorType = {
@@ -101,6 +103,8 @@ function Connector(tile, type, side) {
 				if(!this.connection) {
 					self.createConnection();
 				}
+
+				event.stopPropagation();
 			}
 		} else if(event.button == 2) {
 			var x = getClickX(event);
@@ -113,6 +117,7 @@ function Connector(tile, type, side) {
 					self.sprite.width, self.sprite.height, x, y)) {
 
 				self.deleteConnection();
+				event.stopPropagation();
 			}
 		}
 	}, false);
@@ -198,19 +203,18 @@ function Connection(firstConnector, secondConnector) {
 
 			if(con != null) {
 				if(con.connection) {
-					self.delete();
+					self.delete(con);
+					return;
 				}
 
 				if(con == self.firstConnector) {
-					self.delete();
-				}
-
-				if(con == self.secondConnector) {
-					self.delete();
+					self.delete(con);
+					return;
 				}
 
 				if(con.type == self.firstConnector.type) {
-				 	self.delete();
+				 	self.delete(con);
+					return;
 				}
 
 				if(con.tile != self.firstConnector.tile) {
@@ -221,17 +225,21 @@ function Connection(firstConnector, secondConnector) {
 					// 	self.delete();
 					// }
 
+					con.connection = self;
 					self.connected = true;
 					self.secondConnector = con;
-					con.connection = self;
 
 					self.redraw();
 				} else {
 					self.delete();
 				}
-			}
 
-			self.mouseUp = true;
+				this.mouseUp = true;
+
+				event.stopPropagation();
+			} else {
+				self.delete();
+			}
 		}
 	}, false);
 
@@ -242,7 +250,7 @@ function Connection(firstConnector, secondConnector) {
 	}, false);
 }
 
-Connection.prototype.delete = function() {
+Connection.prototype.delete = function(secondConnctor) {
 	this.files.forEach(function(file) {
 		file.hide();
 		file = null;
@@ -254,7 +262,7 @@ Connection.prototype.delete = function() {
 
 	var index = connections.indexOf(this);
 
-	if (index > -1) {
+	if(index > -1) {
 		connections.splice(index, 1);
 	}
 
@@ -262,8 +270,10 @@ Connection.prototype.delete = function() {
 		delete this.firstConnector.connection;
 	}
 
-	if(this.secondConnector != null) {
-		delete this.secondConnector.connection;
+	var second = secondConnctor || this.secondConnector;
+
+	if(second != null) {
+		delete second.connection;
 	}
 };
 
@@ -275,7 +285,7 @@ Connection.prototype.update = function(event) {
 
 Connection.prototype.redraw = function() {
 	this.sprite.clear();
-	this.sprite.lineStyle(4, 0x000000);
+	this.sprite.lineStyle(4, wireColor);
 	this.sprite.moveTo(this.firstConnector.sprite.x + 8,
 		this.firstConnector.sprite.y + 8);
 
@@ -375,7 +385,7 @@ function Machine(id, map) {
 	this.dead = false;
 	this.files = [];
 	this.delay = 0;
-	this.maxDelay = 200;
+	this.maxDelay = 30;
 }
 
 extend(Tile, Machine);
@@ -431,6 +441,7 @@ function Server(map) {
 extend(Machine, Server);
 
 Server.prototype.update = function() {
+	this.memory = this.files.length * 5;
 	Machine.prototype.update();
 
 	if(this.dead) {
@@ -515,6 +526,7 @@ function Scanner(map) {
 extend(Machine, Scanner);
 
 Scanner.prototype.update = function() {
+	this.memory = this.files.length * 5;
 	Machine.prototype.update();
 
 	if(this.dead) {
@@ -563,6 +575,7 @@ function LineConnector(map) {
 extend(Machine, LineConnector);
 
 LineConnector.prototype.update = function() {
+	this.memory = this.files.length * 5;
 	Machine.prototype.update();
 
 	if(this.dead) {
@@ -610,6 +623,7 @@ function Antivirus(map) {
 extend(Machine, Antivirus);
 
 Antivirus.prototype.update = function() {
+	this.memory = this.files.length * 5;
 	Machine.prototype.update();
 
 	if(this.dead) {
@@ -636,7 +650,7 @@ function Trash(map) {
 	this.name = "trash";
 	this.type = TileType.TRASH;
 
-	this.addConnector(ConnectorType.IN, Side.UP, function(file) { // FIXME
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
 		file.hide();
 
 		if(file.type == FileType.NORMAL) {
@@ -679,13 +693,70 @@ function Trash(map) {
 
 extend(Machine, Trash);
 
+function DoubleSwitch(map) {
+	Machine.call(this, 9, map);
+
+	this.name = "double switch";
+	this.type = TileType.SWITCH;
+	this.currentConnector = Side.RIGHT;
+
+	var self = this;
+
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
+		self.onRecive(file);
+	});
+
+	this.addConnector(ConnectorType.OUT, Side.RIGHT);
+	this.addConnector(ConnectorType.OUT, Side.LEFT);
+
+	window.addEventListener("click", function() {
+		var x = getClickX(event);
+		var y = getClickY(event);
+
+		x -= mapScene.position.x;
+		y -= mapScene.position.y;
+
+		if(isInside(self.sprite.x, self.sprite.y,
+				self.sprite.width, self.sprite.height, x, y)) {
+
+			if(self.currentConnector == Side.RIGHT) {
+				self.currentConnector = Side.LEFT
+			} else {
+				self.currentConnector = Side.RIGHT;
+			}
+		}
+	}, false);
+}
+
+extend(Machine, DoubleSwitch);
+
+DoubleSwitch.prototype.update = function() {
+	this.memory = this.files.length * 5;
+	Machine.prototype.update();
+
+	if(this.dead) {
+		return;
+	}
+
+	if(this.delay <= 0) {
+		if(this.files.length > 0) {
+			var file = this.files.shift();
+			this.onEnd(file);
+
+			this.connectors[this.currentConnector].transferFile(file);
+		}
+
+		this.delay = this.maxDelay;
+	} else {
+		this.delay--;
+	}
+};
+
 function Map(width, height, scene) {
-	mapScene = new Container();
-	mapScene.position.set(200, 0);
+	this.scene = scene;
 
-	scene.addChild(mapScene);
+	mapScene = scene;
 
-	this.scene = mapScene;
 	this.terrain = new Array(width);
 	this.width = width;
 	this.height = height;
@@ -703,18 +774,11 @@ function Map(width, height, scene) {
 	this.addScanner(5, 3);
 	this.addAntivirus(5, 5);
 	this.addTrash(3, 5);
+	this.addDoubleSwitch(3, 1);
 	this.addServer(5, 7);
 
 	var self = this;
-
-	window.addEventListener("resize", function() {
-		self.resize();
-	}, false);
 }
-
-Map.prototype.resize = function() {
-	mapScene.x = (window.innerWidth - mapScene.width) / 2;
-};
 
 Map.prototype.getTile = function(x, y) {
 	return this.terrain[x][y];
@@ -731,6 +795,10 @@ Map.prototype.addLineConnector = function(x, y) {
 
 Map.prototype.addAntivirus = function(x, y) {
 	this.setTile(new Antivirus(this), x, y);
+};
+
+Map.prototype.addDoubleSwitch = function(x, y) {
+	this.setTile(new DoubleSwitch(this), x, y);
 };
 
 Map.prototype.addTrash = function(x, y) {

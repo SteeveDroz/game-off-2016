@@ -13,6 +13,7 @@ function onDocumentReady() {
 		"assets/images/tile6.png").add(
 		"assets/images/tile7.png").add(
 		"assets/images/tile8.png").add(
+		"assets/images/tile9.png").add(
 		"assets/images/connector0.png").add(
 		"assets/images/connector1.png").add(
 		"assets/images/file0.png").add(
@@ -29,9 +30,8 @@ function setup() {
 	// States setup
 
 	states["menu"] = new Menu();
-	states["menu"].resize();
 	states["gamePlay"] = new GamePlay();
-	states["gameOver"] = new GameOver();
+ 	states["gameOver"] = new GameOver();
 	states["about"] = new About();
 	states["settings"] = new Settings();
 

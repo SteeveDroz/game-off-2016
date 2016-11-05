@@ -6,7 +6,18 @@ function GamePlay() {
 	this.filesLost = document.getElementById("filesLost");
 
 	this.leave();
+
+	var self = this;
+
+	window.addEventListener("resize", function(event) {
+		self.resize();
+	}, false);
 }
+
+GamePlay.prototype.resize = function() {
+	this.scene.x = (window.innerWidth - this.scene.width) / 2;
+	this.scene.y = (window.innerHeight - this.scene.height) / 2;
+};
 
 GamePlay.prototype.enter = function() {
 	this.gui.style.display = "block";
@@ -14,6 +25,8 @@ GamePlay.prototype.enter = function() {
 	stage.addChild(this.scene);
 
 	map = new Map(10, 10, this.scene);
+
+	this.resize();
 };
 
 GamePlay.prototype.leave = function() {

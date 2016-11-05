@@ -30,10 +30,12 @@ Menu.prototype.resize = function() {
 };
 
 Menu.prototype.enter = function() {
-	stage.addChild(this.scene);
-
 	this.scene.visible = true;
 	this.gui.style.display = "block";
+
+	stage.addChild(this.scene);
+
+	this.resize();
 };
 
 Menu.prototype.leave = function() {

@@ -26,6 +26,7 @@ var gameOver = false;
 var gameStarted = false;
 
 var map;
+var wireColor = 0x06e6ff;
 
 var filesLost = 0;
 var fileSpeed = 0.5;
