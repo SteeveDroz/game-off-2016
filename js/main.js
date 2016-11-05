@@ -19,11 +19,8 @@ function onDocumentReady() {
 		"assets/images/file1.png").add(
 		"assets/images/file2.png").add(
 		"background", "assets/images/background.png").load(setup);
-
-	window.onresize = function() {
-		resize();
-	};
 }
+
 
 function setup() {
 	audioManager = new AudioManager();
@@ -32,11 +29,10 @@ function setup() {
 	// States setup
 
 	states["menu"] = new Menu();
+	states["menu"].resize();
 	states["gamePlay"] = new GamePlay();
 	states["about"] = new About();
 	states["settings"] = new Settings();
-
-	resize();
 
 	audioManager.loadMusic("background", "assets/music/Sierra Nevada.mp3");
 	audioManager.getMusic("background").play();
@@ -109,22 +105,4 @@ function updateCookie(cookie) {
 			updateSoundsLevel();
 		break;
 	}
-}
-
-function resize() {
-	// var width = 0;
-	// var height = 0;
-	//
-	// if(window.innerWidth / window.innerHeight >= ratio) {
-	// 	width = window.innerHeight * ratio;
-	// 	height = window.innerHeight;
-	// } else {
-	// 	width = window.innerWidth;
-	// 	height = window.innerWidth / ratio;
-	// }
-	//
-	// console.log(renderer);
-	//
-	// renderer.view.style.width = width + 'px';
-	// renderer.view.style.height = height + 'px';
 }

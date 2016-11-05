@@ -13,7 +13,21 @@ function Menu() {
 	stage.addChild(this.scene);
 
 	this.leave();
+
+	var self = this;
+
+	window.addEventListener("resize", function(event) {
+		self.resize();
+	}, false);
 }
+
+Menu.prototype.resize = function() {
+	this.background.width = window.innerWidth;
+	this.background.height = window.innerWidth / ratio;
+
+	this.background.x = (this.background.width - window.innerWidth) / 2 * -1;
+	this.background.y = (this.background.height - window.innerHeight) / 2 * -1;
+};
 
 Menu.prototype.enter = function() {
 	stage.addChild(this.scene);

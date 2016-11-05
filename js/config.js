@@ -8,7 +8,7 @@ var Sprite = PIXI.Sprite;
 var Text = PIXI.Text;
 var Graphics = PIXI.Graphics;
 
-var viewSize = [1280, 720];
+var viewSize = [1920, 1080];
 var ratio = viewSize[0] / viewSize[1];
 var stage;
 var renderer;
