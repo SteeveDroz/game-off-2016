@@ -22,7 +22,6 @@ var FileType = {
 
 var connectors = [];
 var connections = [];
-var files = [];
 
 function File(type) {
 	this.type = type;
@@ -240,7 +239,9 @@ function Connection(firstConnector, secondConnector) {
 	}, false);
 
 	window.addEventListener("mousemove", function(event) {
-		self.update(event);
+		if(!self.connected) {
+			self.redraw();
+		}
 	}, false);
 }
 
@@ -248,7 +249,10 @@ Connection.prototype.delete = function() {
 	mapScene.removeChild(this.sprite);
 
 	var index = connections.indexOf(this);
-	connections.splice(index);
+
+	if (index > -1) {
+		connections.splice(index, 1);
+	}
 
 	if(this.firstConnector != null) {
 		delete this.firstConnector.connection;
@@ -260,9 +264,9 @@ Connection.prototype.delete = function() {
 };
 
 Connection.prototype.update = function(event) {
-	if(!this.connected) {
-		this.redraw();
-	}
+	this.files.forEach(function(file) {
+		file.update();
+	});
 };
 
 Connection.prototype.redraw = function() {
@@ -285,7 +289,6 @@ Connection.prototype.redraw = function() {
 
 Connection.prototype.transferFile = function(file, from, to) {
 	this.files.push(file);
-	files.push(file);
 
 	file.connection = this;
 	file.setPosition(from);
@@ -296,7 +299,10 @@ Connection.prototype.transferFile = function(file, from, to) {
 
 Connection.prototype.endTransfer = function(file) {
 	var index = this.files.indexOf(file);
-	this.files.splice(index);
+
+	if(index > -1) {
+		this.files.splice(index, 1);
+	}
 
 	var target = file.target;
 
@@ -425,17 +431,13 @@ Server.prototype.update = function() {
 			}
 
 			var index = this.files.indexOf(file);
-			if(index >= 0) {
-				this.files.splice(index);
+
+			if(index > -1) {
+			 	this.files.splice(index, 1);
 			}
 
-			// index = files.indexOf(file); FIXME: bugs
-			//
-			// if(index >= 0) {
-			//  	files.splice(index);
-			// }
-
-			console.log(files);
+			file.hide();
+			file = null;
 		}
 
 		this.delay = this.maxDelay;
@@ -645,25 +647,25 @@ function Trash(map) {
 	this.name = "trash";
 	this.type = TileType.TRASH;
 
-	// this.addConnector(ConnectorType.IN, Side.UP, function(file) { // FIXME
-	// 	var index = files.indexOf(file);
-	// 	files.splice(index);
-	// });
-	//
-	// this.addConnector(ConnectorType.IN, Side.RIGHT, function(file) {
-	// 	var index = files.indexOf(file);
-	// 	files.splice(index);
-	// });
-	//
-	// this.addConnector(ConnectorType.IN, Side.DOWN, function(file) {
-	// 	var index = files.indexOf(file);
-	// 	files.splice(index);
-	// });
-	//
-	// this.addConnector(ConnectorType.IN, Side.LEFT, function(file) {
-	// 	var index = files.indexOf(file);
-	// 	files.splice(index);
-	// });
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) { // FIXME
+		file.hide();
+		file = null;
+	});
+
+	this.addConnector(ConnectorType.IN, Side.RIGHT, function(file) {
+		file.hide();
+		file = null;
+	});
+
+	this.addConnector(ConnectorType.IN, Side.DOWN, function(file) {
+		file.hide();
+		file = null;
+	});
+
+	this.addConnector(ConnectorType.IN, Side.LEFT, function(file) {
+		file.hide();
+		file = null;
+	});
 }
 
 extend(Machine, Trash);
@@ -747,7 +749,7 @@ Map.prototype.update = function() {
 		}
 	}
 
-	files.forEach(function(file) {
-		file.update();
+	connections.forEach(function(connection) {
+		connection.update();
 	});
 };
