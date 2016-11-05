@@ -771,10 +771,6 @@ function Map(width, height, scene) {
 	}
 
 	this.addEthernetConnector(5, 1);
-	this.addScanner(5, 3);
-	this.addAntivirus(5, 5);
-	this.addTrash(3, 5);
-	this.addDoubleSwitch(3, 1);
 	this.addServer(5, 7);
 
 	var self = this;

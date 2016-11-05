@@ -119,3 +119,19 @@ input[type = checkbox]:checked + label {
 .black {
     color: #000000;
 }
+
+.white {
+    color: #FFFFFF;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.bold {
+    font-weight: bold;
+}

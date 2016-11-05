@@ -20,6 +20,10 @@ function onDocumentReady() {
 		"assets/images/file1.png").add(
 		"assets/images/file2.png").add(
 		"background", "assets/images/background.png").load(setup);
+
+	window.onbeforeunload = function () {
+		saveCookies();
+	};
 }
 
 
@@ -84,8 +88,21 @@ function applyCookies() {
 	document.getElementById("music").checked = (Cookies.get("music") == "true") ? true : false;
 	document.getElementById("sounds").checked = (Cookies.get("sounds") == "true") ? true : false;
 
+	var moneyValue = Cookies.get("money");
+
+	if(moneyValue) {
+		money = parseInt(moneyValue);
+	} else {
+		money = 500;
+	}
+
 	updateMusicLevel();
 	updateSoundsLevel();
+}
+
+
+function saveCookies() {
+	Cookies.set("money", String(money));
 }
 
 function updateCookie(cookie) {

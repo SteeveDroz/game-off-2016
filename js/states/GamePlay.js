@@ -4,6 +4,7 @@ function GamePlay() {
 	this.cpuLabel = document.getElementById("serverCPU");
 	this.memLabel = document.getElementById("serverMEM");
 	this.filesLost = document.getElementById("filesLost");
+	this.moneyLabel = document.getElementById("money");
 
 	this.leave();
 
@@ -48,6 +49,7 @@ GamePlay.prototype.update = function() {
 	this.cpuLabel.innerHTML = Math.floor((map.server.cpu / map.server.maxCpu) * 100) + "%";
 	this.memLabel.innerHTML = Math.floor((map.server.memory / map.server.maxMemory) * 100) + "%";
 	this.filesLost.innerHTML = filesLost;
+	this.moneyLabel.innerHTML = money + "$";
 
 	if(gameOver) {
 		enterState("gameOver");

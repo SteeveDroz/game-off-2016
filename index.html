@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GGO</title>
+        <!-- TODO: add icon -->
+        <title>Server Defense</title>
 		<link rel='stylesheet' type='text/css' href='elements.css'></link>
 		<link rel='stylesheet' type='text/css' href='styles.css'></link>
 		<script src='js/pixi.min.js'></script>
@@ -33,7 +34,13 @@
 				</div>
 				<div id='gamePlay'>
 	                <div id='left-panel'>
-                        <b class='blue'>Server</b>
+                        Wave <span id='wave'>1</span>
+                        <br/>
+                        <br/>
+                        <hr/>
+                        <br/>
+                        <b class='blue bold'>Server: </b>
+                        <br/>
                         <br/>
                         <span class='gray'>
                             CPU: <span id='serverCPU'>0%</span>
@@ -49,15 +56,24 @@
                         <br/>
                     </div>
                     <div id='right-panel'>
-                        Wave <span id='wave'>1</span>
+                        <span class='gray bold'>Shop</span><span id='money' class='right'>0$</span>
+                        <br/>
+                        <br/>
+                        <hr/>
+                        <div id='shop'>
+                            <div id='shopItem' class='white'>New</div>
+                        </div>
+                        <hr/>
+                        <br/>
                         <button id='start' onclick='startOrPauseGame()'>Start</button>
                         <button onclick='window.location.reload()'><span>Back to the menu</span></button>
                     </div>
 				</div>
                 <div id='gameOver'>
-                    <span id='why'>Error</span>
+                    <span id='why'>TODO: show game over reason</span>
+                    <br/>
                     <span>
-                        <span id='score'>0</span>
+                        Score: <span id='score'>0</span>
                     </span>
                     <button onclick='window.location.reload()'>Back to the menu</button>
                 </div>
