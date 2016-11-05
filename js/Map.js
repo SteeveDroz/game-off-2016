@@ -212,7 +212,7 @@ function Connection(firstConnector, secondConnector) {
 					return;
 				}
 
-				if(con.type == self.firstConnector.type) {
+				if(con.type === self.firstConnector.type) {
 				 	self.delete(con);
 					return;
 				}
