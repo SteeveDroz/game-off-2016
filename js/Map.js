@@ -20,9 +20,6 @@ var FileType = {
 	VIRUS : 2
 };
 
-var connectors = [];
-var connections = [];
-
 function File(type) {
 	this.type = type;
 	this.known = false;
@@ -230,7 +227,6 @@ function Connection(firstConnector, secondConnector) {
 
 					self.redraw();
 				} else {
-					console.log("can't wire to the same tile");
 					self.delete();
 				}
 			}
@@ -391,8 +387,6 @@ Machine.prototype.update = function() {
 		return;
 	}
 
-	// this.memory = this.files.length * 5;
-
 	if(this.cpu >= this.maxCpu || this.memory >= this.maxMemory) {
 		this.dead = true;
 	}
@@ -400,11 +394,11 @@ Machine.prototype.update = function() {
 
 Machine.prototype.onRecive = function(file) {
 	this.files.push(file);
-	this.cpu += file.size * 5;
+	this.cpu += file.size * 2;
 };
 
 Machine.prototype.onEnd = function(file) {
-	this.cpu -= file.size * 5;
+	this.cpu -= file.size * 2;
 
 	file.hide();
 
@@ -420,6 +414,7 @@ function Server(map) {
 
 	this.name = "server";
 	this.type = TileType.SERVER;
+	this.maxDelay = 60;
 
 	var self = this;
 
@@ -436,17 +431,13 @@ function Server(map) {
 extend(Machine, Server);
 
 Server.prototype.update = function() {
-	if(this.cpu >= this.maxCpu || this.memory >= this.maxMemory) {
-		this.dead = true;
-	}
+	Machine.prototype.update();
 
 	if(this.dead) {
 		gameOver = true;
 
 		return;
 	}
-
-	this.memory = this.files.length * 5;
 
 	if(this.delay <= 0) {
 		if(this.files.length > 0) {
@@ -476,9 +467,7 @@ function EthernetConnector(map) {
 extend(Machine, EthernetConnector);
 
 EthernetConnector.prototype.update = function() {
-	if(this.cpu >= this.maxCpu || this.memory >= this.maxMemory) {
-		this.dead = true;
-	}
+	Machine.prototype.update();
 
 	if(this.dead) {
 		return;
@@ -498,7 +487,7 @@ EthernetConnector.prototype.update = function() {
 };
 
 EthernetConnector.prototype.randomFile = function() {
-	if(Math.random() < 0.1) {
+	if(Math.random() < 0.2) {
 		return new File(FileType.VIRUS);
 	} else {
 		return new File(FileType.NORMAL);
@@ -526,9 +515,7 @@ function Scanner(map) {
 extend(Machine, Scanner);
 
 Scanner.prototype.update = function() {
-	if(this.cpu >= this.maxCpu || this.memory >= this.maxMemory) {
-		this.dead = true;
-	}
+	Machine.prototype.update();
 
 	if(this.dead) {
 		return;
@@ -717,7 +704,17 @@ function Map(width, height, scene) {
 	this.addAntivirus(5, 5);
 	this.addTrash(3, 5);
 	this.addServer(5, 7);
+
+	var self = this;
+
+	window.addEventListener("resize", function() {
+		self.resize();
+	}, false);
 }
+
+Map.prototype.resize = function() {
+	mapScene.x = (window.innerWidth - mapScene.width) / 2;
+};
 
 Map.prototype.getTile = function(x, y) {
 	return this.terrain[x][y];

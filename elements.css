@@ -13,6 +13,7 @@
 	padding: 0;
 
 	font-family: ArchitectsDaughter;
+    color: #08ebfe;
 }
 
 html, body {
@@ -27,8 +28,9 @@ body {
 }
 
 button {
-	background-color: #ABC;
-	border: none;
+	background-color: #000000;
+	border: 2px solid #08ebfe;
+    color: #08ebfe;
 	border-radius: 2px;
 	margin-bottom: 10px;
 	position: relative;
@@ -38,14 +40,15 @@ button {
 }
 
 button:hover {
-	background-color: #CBC;
+	background-color: #00191d;
 }
 
 button:active {
-	background-color: #7CC;
+	background-color: #003f45;
 }
 
 button span {
+    color: #08ebfe;
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
@@ -103,4 +106,16 @@ input[type = checkbox]:checked + label {
 	width: 100px;
 	display: inline-block;
 	padding: 0 0 0 0px;
+}
+
+.blue {
+    color: #08ebfe;
+}
+
+.gray {
+    color: #949494;
+}
+
+.black {
+    color: #000000;
 }

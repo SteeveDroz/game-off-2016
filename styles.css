@@ -13,19 +13,41 @@
 	color: white;
 }
 
+#gamePlay {
+    display: none;
+}
+
+#menu, #gameOver, #about, #settings {
+    display: none;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    margin-left:  -150px;
+    margin-top: -300px;
+    width: 300px;
+    height: 300px;
+    background-color: #000000;
+    opacity: 0.9;
+    border-radius: 2px;
+    padding: 10px;
+}
+
 #menu {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-left:  -150px;
-	margin-top: -300px;
-	width: 300px;
-	background-color: #555555;
-	border-radius: 2px;
-	padding: 10px;
+
+}
+
+#logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
 }
 
 #gamePlay {
+
+}
+
+#gameOver {
 
 }
 
@@ -34,8 +56,8 @@
     position: fixed;
     width: 178px;
     height: 100%;
-    border-right: solid black 2px;
-    background-color: #979797;
+    border-right: solid #08ebfe 2px;
+    background-color: #000000;
     padding: 10px;
 }
 
@@ -44,35 +66,17 @@
     position: fixed;
     width: 178px;
     height: 100%;
-    border-left: solid black 2px;
-    background-color: #979797;
+    border-left: solid #08ebfe 2px;
+    background-color: #000000;
     padding: 10px;
 }
 
 #settings {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-left:  -150px;
-	margin-top: -150px;
-	width: 300px;
-	height: 300px;
-	background-color: #555555;
-	border-radius: 2px;
-	padding: 10px;
+
 }
 
 #about {
-	position: relative;
-	top: 50%;
-	left: 50%;
-	margin-left:  -150px;
-	margin-top: -150px;
-	width: 300px;
-	height: 300px;
-	background-color: #555555;
-	border-radius: 2px;
-	padding: 10px;
+
 }
 
 #music + label {
@@ -115,8 +119,4 @@
 	width: 50px;
 	display: inline-block;
 	padding: 0 0 0 0px;
-}
-
-#about {
-
 }

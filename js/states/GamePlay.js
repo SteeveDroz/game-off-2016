@@ -10,26 +10,33 @@ function GamePlay() {
 
 GamePlay.prototype.enter = function() {
 	this.gui.style.display = "block";
-	this.server
-	this.map = new Map(10, 10, this.scene);
 
 	stage.addChild(this.scene);
+
+	map = new Map(10, 10, this.scene);
 };
 
 GamePlay.prototype.leave = function() {
 	stage.removeChild(this.scene);
 
+	gameOver = false;
+	filesLost = 0;
+
+	if(gameStarted) {
+		startOrPauseGame();
+	}
+
 	this.gui.style.display = "none";
 };
 
 GamePlay.prototype.update = function() {
-	this.map.update();
+	map.update();
 
-	this.cpuLabel.innerHTML = Math.floor((this.map.server.cpu / this.map.server.maxCpu) * 100) + "%";
-	this.memLabel.innerHTML = Math.floor((this.map.server.memory / this.map.server.maxMemory) * 100) + "%";
+	this.cpuLabel.innerHTML = Math.floor((map.server.cpu / map.server.maxCpu) * 100) + "%";
+	this.memLabel.innerHTML = Math.floor((map.server.memory / map.server.maxMemory) * 100) + "%";
 	this.filesLost.innerHTML = filesLost;
 
 	if(gameOver) {
-		enterState("menu");
+		enterState("gameOver");
 	}
 };

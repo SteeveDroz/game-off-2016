@@ -37,9 +37,12 @@ Menu.prototype.enter = function() {
 };
 
 Menu.prototype.leave = function() {
-	stage.removeChild(this.scene);
+	if(currentState instanceof GamePlay) {
+		stage.removeChild(this.scene);
 
-	this.scene.visible = false;
+		this.scene.visible = false;
+	}
+
 	this.gui.style.display = "none";
 };
 

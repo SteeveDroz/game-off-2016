@@ -25,8 +25,13 @@ var audioManager;
 var gameOver = false;
 var gameStarted = false;
 
+var map;
+
 var filesLost = 0;
 var fileSpeed = 0.5;
+
+var connectors = [];
+var connections = [];
 
 function getClickX(event) {
 	var x;

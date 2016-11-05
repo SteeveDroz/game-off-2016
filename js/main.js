@@ -31,6 +31,7 @@ function setup() {
 	states["menu"] = new Menu();
 	states["menu"].resize();
 	states["gamePlay"] = new GamePlay();
+	states["gameOver"] = new GameOver();
 	states["about"] = new About();
 	states["settings"] = new Settings();
 
@@ -51,17 +52,16 @@ function update() {
 }
 
 function enterState(state) {
-	gameOver = false;
-
-	if(currentState) {
-		currentState.leave();
-	}
-
+	var lastState = currentState;
 	var newState = states[state];
 
-	newState.enter();
-
 	currentState = newState;
+
+	if(lastState) {
+		lastState.leave();
+	}
+
+	newState.enter();
 }
 
 function updateMusicLevel() {

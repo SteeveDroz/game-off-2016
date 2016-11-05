@@ -11,6 +11,7 @@
         <script src='js/Map.js'></script>
 		<script src='js/states/Menu.js'></script>
 		<script src='js/states/GamePlay.js'></script>
+        <script src='js/states/GameOver.js'></script>
 		<script src='js/states/Settings.js'></script>
 		<script src='js/states/About.js'></script>
 		<script src='js/howler.core.js'></script>
@@ -21,10 +22,10 @@
 			<div id='gameCanvas'></div>
 			<div id='gui'>
 				<div id='menu'>
-                    <img src='assets/images/logo.png'/>
+                    <img id='logo' src='assets/images/logo.png'/>
 					<button onclick='enterState("gamePlay")'><span>Play</span></button>
 					<button onclick='enterState("settings")'><span>Settings</span></button>
-					<button onclick='enterState("about")'><span>About</span></button>
+					<button onclick='enterState("about")'><span>How to play</span></button>
 
 					<form action='https://github.com/egordorichev/Server-Defense'>
 						<button class='nospace'><span>Fork on GitHub</span></button>
@@ -32,13 +33,19 @@
 				</div>
 				<div id='gamePlay'>
 	                <div id='left-panel'>
-                        <b>Server</b>
+                        <b class='blue'>Server</b>
                         <br/>
-                        CPU: <span id='serverCPU'>0%</span>
+                        <span class='gray'>
+                            CPU: <span id='serverCPU'>0%</span>
+                        </span>
                         <br/>
+                        <span class='gray'>
                         MEMORY: <span id='serverMEM'>0%</span>
+                        </span>
                         <br/>
+                        <span class='gray'>
                         FILES LOST: <span id='filesLost'>0</span>
+                        </span>
                         <br/>
                     </div>
                     <div id='right-panel'>
@@ -47,6 +54,13 @@
                         <button id='start' onclick='startOrPauseGame()'>Start</button>
                     </div>
 				</div>
+                <div id='gameOver'>
+                    <span id='why'>Error</span>
+                    <span>
+                        <span id='score'>0</span>
+                    </span>
+                    <button onclick="window.location.reload()">Back to the menu</button>
+                </div>
 				<div id='settings'>
 					<div class='content'>
 						<input type='checkbox' id='music' name='music' onchange='updateCookie("music")' checked></input>
@@ -58,8 +72,7 @@
 				</div>
 				<div id='about'>
 					<div class='content'>
-						Game was written by Egor Dorichev for Github Game Off 2016 in Java script
-						using howler.js, cookie.js and pixi.js frameworks.
+						TODO
 					</div>
 					<button onclick='enterState("menu")'><span>Back</span></button>
 				</div>
