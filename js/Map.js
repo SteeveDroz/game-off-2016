@@ -142,7 +142,9 @@ Connector.prototype.updatePosition = function() {
 };
 
 Connector.prototype.createConnection = function() {
-	this.connection = new Connection(this);
+	if(!this.connection) {
+		this.connection = new Connection(this);
+	}
 };
 
 Connector.prototype.deleteConnection = function() {
@@ -398,6 +400,8 @@ Machine.prototype.update = function() {
 		return;
 	}
 
+	this.memory = this.files.length * 5;
+
 	if(this.cpu >= this.maxCpu || this.memory >= this.maxMemory) {
 		this.dead = true;
 	}
@@ -425,7 +429,8 @@ function Server(map) {
 
 	this.name = "server";
 	this.type = TileType.SERVER;
-	this.maxDelay = 60;
+	this.maxDelay = 120;
+	this.infected = false;
 
 	var self = this;
 
@@ -435,6 +440,7 @@ function Server(map) {
 		if(file.type == FileType.VIRUS) {
 			this.dead = true;
 			gameOver = true;
+			self.infected = true;
 		}
 	});
 }
@@ -442,8 +448,7 @@ function Server(map) {
 extend(Machine, Server);
 
 Server.prototype.update = function() {
-	this.memory = this.files.length * 5;
-	Machine.prototype.update();
+	Machine.prototype.update.call(this);
 
 	if(this.dead) {
 		gameOver = true;
@@ -455,6 +460,9 @@ Server.prototype.update = function() {
 		if(this.files.length > 0) {
 			var file = this.files.shift();
 			this.onEnd(file);
+
+			money += 10;
+			filesPassed++;
 
 			file = null;
 		}
@@ -479,18 +487,20 @@ function EthernetConnector(map) {
 extend(Machine, EthernetConnector);
 
 EthernetConnector.prototype.update = function() {
-	Machine.prototype.update();
+	Machine.prototype.update.call(this);
 
 	if(this.dead) {
 		return;
 	}
 
 	if(this.delay <= 0) {
-		var file = this.randomFile();
+		var file = this.randomFile(); // TODO: handle wave
 
 		if(this.connectors[Side.DOWN].connection) {
 			this.connectors[Side.DOWN].transferFile(file);
 		}
+
+		this.maxDelay = 65 - wave * 5;
 
 		this.delay = this.maxDelay;
 	} else {
@@ -527,10 +537,11 @@ function Scanner(map) {
 extend(Machine, Scanner);
 
 Scanner.prototype.update = function() {
-	this.memory = this.files.length * 5;
-	Machine.prototype.update();
+	Machine.prototype.update.call(this);
 
 	if(this.dead) {
+		gameOver = true;
+
 		return;
 	}
 
@@ -576,8 +587,7 @@ function LineConnector(map) {
 extend(Machine, LineConnector);
 
 LineConnector.prototype.update = function() {
-	this.memory = this.files.length * 5;
-	Machine.prototype.update();
+	Machine.prototype.update.call(this);
 
 	if(this.dead) {
 		return;
@@ -624,8 +634,7 @@ function Antivirus(map) {
 extend(Machine, Antivirus);
 
 Antivirus.prototype.update = function() {
-	this.memory = this.files.length * 5;
-	Machine.prototype.update();
+	Machine.prototype.update.call(this);
 
 	if(this.dead) {
 		return;
@@ -732,8 +741,7 @@ function DoubleSwitch(map) {
 extend(Machine, DoubleSwitch);
 
 DoubleSwitch.prototype.update = function() {
-	this.memory = this.files.length * 5;
-	Machine.prototype.update();
+	Machine.prototype.update.call(this);
 
 	if(this.dead) {
 		return;

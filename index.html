@@ -14,6 +14,7 @@
 		<script src='js/states/Menu.js'></script>
 		<script src='js/states/GamePlay.js'></script>
         <script src='js/states/GameOver.js'></script>
+        <script src='js/states/Win.js'></script>
 		<script src='js/states/Settings.js'></script>
 		<script src='js/states/About.js'></script>
 		<script src='js/howler.core.js'></script>
@@ -40,10 +41,10 @@
                         <br/>
                         <hr/>
                         <br/>
-                        <b class='blue bold'>Server: </b>
+                        <b class='blue bold' data-intro='This is stats about server, you need to protect'>Server: </b>
                         <br/>
                         <br/>
-                        <span class='gray'>
+                        <span class='gray' data-intro='If CPU or memory is overloaded, you lose'>
                             CPU: <span id='serverCPU'>0%</span>
                         </span>
                         <br/>
@@ -57,7 +58,7 @@
                         <br/>
                     </div>
                     <div id='right-panel'>
-                        <span class='gray bold'>Shop</span><span id='money' class='right'>0$</span>
+                        <span class='gray bold' data-intro='There you can buy some more stuff'>Shop</span><span id='money' class='right'>0$</span>
                         <br/>
                         <br/>
                         <hr/>
@@ -71,10 +72,24 @@
                     </div>
 				</div>
                 <div id='gameOver'>
-                    <span id='why'>TODO: show game over reason</span>
+                    <span class='white bold'>Game over!</span>
+                    <br/>
+                    <br/>
+                    <span id='why'></span>
+                    <br/>
+                    <br/>
+                    <span class='white'>
+                        Score: <span id='scoreOver'>0</span>
+                    </span>
+                    <br/>
+                    <br/>
+                    <button onclick='window.location.reload()'>Back to the menu</button>
+                </div>
+                <div id='win'>
+                    <span class='white bold'>You win!</span>
                     <br/>
                     <span>
-                        Score: <span id='score'>0</span>
+                        Score: <span id='scoreWin'>0</span>
                     </span>
                     <button onclick='window.location.reload()'>Back to the menu</button>
                 </div>

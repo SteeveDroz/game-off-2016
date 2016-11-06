@@ -5,10 +5,21 @@ function GamePlay() {
 	this.memLabel = document.getElementById("serverMEM");
 	this.filesLost = document.getElementById("filesLost");
 	this.moneyLabel = document.getElementById("money");
+	this.waveLabel = document.getElementById("wave");
 
 	this.leave();
 
+	wave = 0;
+
+	this.nextWave();
+
 	var self = this;
+
+	setInterval(function() {
+		if(gameStarted) {
+			self.nextWave();
+		}
+	}, 60000);
 
 	window.addEventListener("resize", function(event) {
 		self.resize();
@@ -16,8 +27,22 @@ function GamePlay() {
 }
 
 GamePlay.prototype.resize = function() {
-	this.scene.x = (window.innerWidth - this.scene.width) / 2;
-	this.scene.y = (window.innerHeight - this.scene.height) / 2;
+	this.scene.x = Math.floor((window.innerWidth - this.scene.width) / 2);
+	this.scene.y = Math.floor((window.innerHeight - this.scene.height) / 2);
+};
+
+GamePlay.prototype.nextWave = function() {
+	wave++;
+
+	fileSpeed *= 1.5;
+
+	if(fileSpeed > 8) {
+		fileSpeed = 8;
+	}
+
+	if(wave >= 10) {
+		enterState("win");
+	}
 };
 
 GamePlay.prototype.enter = function() {
@@ -29,6 +54,8 @@ GamePlay.prototype.enter = function() {
 	shop = new Shop();
 
 	this.resize();
+
+	firstTime = false;
 };
 
 GamePlay.prototype.leave = function() {
@@ -51,6 +78,7 @@ GamePlay.prototype.update = function() {
 	this.memLabel.innerHTML = Math.floor((map.server.memory / map.server.maxMemory) * 100) + "%";
 	this.filesLost.innerHTML = filesLost;
 	this.moneyLabel.innerHTML = money + "$";
+	this.waveLabel.innerHTML = wave;
 
 	if(gameOver) {
 		enterState("gameOver");

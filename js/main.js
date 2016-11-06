@@ -36,14 +36,15 @@ function setup() {
 	states["menu"] = new Menu();
 	states["gamePlay"] = new GamePlay();
  	states["gameOver"] = new GameOver();
+	states["win"] = new Win();
 	states["about"] = new About();
 	states["settings"] = new Settings();
 
 	audioManager.loadMusic("background", "assets/music/Sierra Nevada.mp3");
 	audioManager.getMusic("background").play();
 
-	applyCookies();
 	enterState("menu");
+	applyCookies();
 
 	update(); // Loops forever
 }
@@ -92,8 +93,10 @@ function applyCookies() {
 
 	if(moneyValue) {
 		money = parseInt(moneyValue);
-	} else {
+	} else { // It's a new user
 		money = 500;
+
+		firstTime = true;
 	}
 
 	updateMusicLevel();

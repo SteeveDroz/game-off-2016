@@ -17,7 +17,7 @@
     display: none;
 }
 
-#menu, #gameOver, #about, #settings {
+#menu, #gameOver, #win, #about, #settings {
     display: none;
     position: relative;
     top: 50%;

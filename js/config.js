@@ -31,10 +31,14 @@ var shop;
 var money;
 
 var filesLost = 0;
+var filesPassed = 0;
 var fileSpeed = 0.5;
 
 var connectors = [];
 var connections = [];
+
+var firstTime = false;
+var wave = 1;
 
 function getClickX(event) {
 	var x;
