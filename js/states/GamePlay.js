@@ -26,6 +26,7 @@ GamePlay.prototype.enter = function() {
 	stage.addChild(this.scene);
 
 	map = new Map(10, 10, this.scene);
+	shop = new Shop();
 
 	this.resize();
 };

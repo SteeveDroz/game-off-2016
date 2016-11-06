@@ -24,9 +24,10 @@ var background;
 var audioManager;
 var gameOver = false;
 var gameStarted = false;
+var wireColor = 0x06e6ff;
 
 var map;
-var wireColor = 0x06e6ff;
+var shop;
 var money;
 
 var filesLost = 0;

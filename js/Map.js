@@ -341,7 +341,6 @@ function Tile(id, map) {
 	this.map = map;
 	this.sprite = new Sprite(textures["assets/images/tile" + id + ".png"]);
 	this.name = "tile";
-	this.connactable = false;
 	this.connectors = [];
 	this.type = TileType.NONE;
 	this.x = 0;
@@ -377,7 +376,6 @@ function Machine(id, map) {
 
 	this.name = "machine";
 	this.type = TileType.MACHINE;
-	this.connactable = true;
 	this.maxCpu = 100;
 	this.maxMemory = 100;
 	this.cpu = 0;

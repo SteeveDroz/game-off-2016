@@ -10,6 +10,7 @@
         <script src='js/AudioManager.js'></script>
 		<script src='js/js.cookie.js'></script>
         <script src='js/Map.js'></script>
+        <script src='js/Shop.js'></script>
 		<script src='js/states/Menu.js'></script>
 		<script src='js/states/GamePlay.js'></script>
         <script src='js/states/GameOver.js'></script>
@@ -18,7 +19,7 @@
 		<script src='js/howler.core.js'></script>
 		<script src='js/main.js'></script>
     </head>
-    <body oncontextmenu="return false;">
+    <body oncontextmenu='return false;' ondragover='event.preventDefault();'>
 		<div id='container'>
 			<div id='gameCanvas'></div>
 			<div id='gui'>
@@ -61,7 +62,7 @@
                         <br/>
                         <hr/>
                         <div id='shop'>
-                            <div id='shopItem' class='white'>New</div>
+
                         </div>
                         <hr/>
                         <br/>
