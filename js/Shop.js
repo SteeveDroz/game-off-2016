@@ -101,7 +101,8 @@ Shop.prototype.setupItems = function() {
 	this.addItem(new ShopItem(6, "LineConnector", "Hub", 40));
 	this.addItem(new ShopItem(7, "Antivirus", "Antivirus", 170));
 	this.addItem(new ShopItem(8, "Trash", "Trash", 30));
-	this.addItem(new ShopItem(9, "DoubleSwitch", "Double Switch", 30));
+	this.addItem(new ShopItem(9, "DoubleSwitch", "Double hand switch", 30));
+	this.addItem(new ShopItem(2, "Server", "Server", 5000));
 };
 
 Shop.prototype.addItem = function(item) {

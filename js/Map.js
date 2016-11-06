@@ -438,8 +438,7 @@ function Server(map) {
 		self.onRecive(file);
 
 		if(file.type == FileType.VIRUS) {
-			this.dead = true;
-			gameOver = true;
+			self.dead = true;
 			self.infected = true;
 		}
 	});
@@ -451,8 +450,6 @@ Server.prototype.update = function() {
 	Machine.prototype.update.call(this);
 
 	if(this.dead) {
-		gameOver = true;
-
 		return;
 	}
 
@@ -769,7 +766,7 @@ function Map(width, height, scene) {
 	this.terrain = new Array(width);
 	this.width = width;
 	this.height = height;
-	this.server = null;
+	this.servers = [];
 
 	for(var x = 0; x < this.width; x++) {
 		this.terrain[x] = new Array(this.width);
@@ -790,8 +787,7 @@ Map.prototype.getTile = function(x, y) {
 };
 
 Map.prototype.addServer = function(x, y) {
-	this.server = new Server(this);
-	this.setTile(this.server, x, y);
+	this.setTile(new Server(this), x, y);
 };
 
 Map.prototype.addLineConnector = function(x, y) {
@@ -826,6 +822,10 @@ Map.prototype.setTileById = function(id, x, y) {
 };
 
 Map.prototype.setTile = function(tile, x, y) {
+	if(tile instanceof Server) {
+		this.servers.push(tile);
+	}
+
 	tile.setPosition(x * 64, y * 64);
 	this.terrain[x][y] = tile;
 };
@@ -844,4 +844,16 @@ Map.prototype.update = function() {
 	connections.forEach(function(connection) {
 		connection.update();
 	});
+
+	var oneOrMoreServersAreUp = false;
+
+	this.servers.forEach(function(server) {
+		if(!server.dead) {
+			oneOrMoreServersAreUp = true;
+		}
+	});
+
+	if(!oneOrMoreServersAreUp) {
+		gameOver = true;
+	}
 };

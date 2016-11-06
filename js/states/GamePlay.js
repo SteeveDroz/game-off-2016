@@ -50,6 +50,10 @@ GamePlay.prototype.enter = function() {
 
 	stage.addChild(this.scene);
 
+	gameOver = false;
+	filesLost = 0;
+	filesPassed = 0;
+
 	map = new Map(10, 10, this.scene);
 	shop = new Shop();
 
@@ -61,9 +65,6 @@ GamePlay.prototype.enter = function() {
 GamePlay.prototype.leave = function() {
 	stage.removeChild(this.scene);
 
-	gameOver = false;
-	filesLost = 0;
-
 	if(gameStarted) {
 		startOrPauseGame();
 	}
@@ -74,8 +75,8 @@ GamePlay.prototype.leave = function() {
 GamePlay.prototype.update = function() {
 	map.update();
 
-	this.cpuLabel.innerHTML = Math.floor((map.server.cpu / map.server.maxCpu) * 100) + "%";
-	this.memLabel.innerHTML = Math.floor((map.server.memory / map.server.maxMemory) * 100) + "%";
+	// this.cpuLabel.innerHTML = Math.floor((map.server.cpu / map.server.maxCpu) * 100) + "%";
+	// this.memLabel.innerHTML = Math.floor((map.server.memory / map.server.maxMemory) * 100) + "%";
 	this.filesLost.innerHTML = filesLost;
 	this.moneyLabel.innerHTML = money + "$";
 	this.waveLabel.innerHTML = wave;
