@@ -81,6 +81,7 @@ function Connector(tile, type, side) {
 	this.tile = tile;
 	this.side = side;
 	this.type = type;
+	this.connection = null;
 
 	this.sprite = new Sprite(textures["assets/images/connector" + type + ".png"]);
 	this.updatePosition();
@@ -145,7 +146,9 @@ Connector.prototype.createConnection = function() {
 };
 
 Connector.prototype.deleteConnection = function() {
-	this.connection.delete();
+	if(this.connection) {
+		this.connection.delete();
+	}
 };
 
 Connector.prototype.transferFile = function(file) {

@@ -49,7 +49,7 @@ function ShopItem(id, className, itemName, cost) {
 		if(strcmp("shopItem" + String(self.itemId), event.dataTransfer.getData("text/html")) != 0) {
 			return;
 		}
-		
+
 		event.preventDefault();
 		event.stopPropagation();
 
@@ -100,6 +100,8 @@ Shop.prototype.setupItems = function() {
 	this.addItem(new ShopItem(5, "Scanner", "Scanner", 150));
 	this.addItem(new ShopItem(6, "LineConnector", "Hub", 40));
 	this.addItem(new ShopItem(7, "Antivirus", "Antivirus", 170));
+	this.addItem(new ShopItem(8, "Trash", "Trash", 30));
+	this.addItem(new ShopItem(9, "DoubleSwitch", "Double Switch", 30));
 };
 
 Shop.prototype.addItem = function(item) {

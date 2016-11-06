@@ -53,19 +53,19 @@
     height: 300px;
     overflow-y: scroll;
     overflow-x: hidden;
-    width: 220px;
+    width: 320px;
 }
 
 #shopItem {
     background-color: #949494;
     border-radius: 2px;
-    width: 200px;
+    width: 300px;
     height: 74px;
     margin-bottom: 10px;
 }
 
 #shopItemInner {
-    width: 175px;
+    width: 275px;
     padding: 5px;
 }
 
@@ -95,7 +95,7 @@
 #right-panel {
     right: 0;
     position: fixed;
-    width: 178px;
+    width: 278px;
     height: 100%;
     border-left: solid #08ebfe 2px;
     background-color: #000000;
