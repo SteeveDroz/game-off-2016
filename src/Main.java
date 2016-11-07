@@ -1,18 +1,16 @@
-package application;
 
+import active.*;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 	try {
-	    BorderPane root = new BorderPane();
-	    Scene scene = new Scene(root, 400, 400);
+	    Welcome scene = new Welcome();
 	    scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 	    primaryStage.setScene(scene);
+	    primaryStage.setTitle("GitHub Game Off 2016 (WORKING TITLE)");
 	    primaryStage.show();
 	} catch (Exception e) {
 	    e.printStackTrace();
