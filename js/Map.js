@@ -101,12 +101,12 @@ function Connector(tile, type, side) {
 			if(isInside(self.sprite.x, self.sprite.y,
 					self.sprite.width, self.sprite.height, x, y)) {
 
-				if(!this.connection) {
-					self.createConnection();
-				}
-
 				event.preventDefault();
 				event.stopPropagation();
+
+				if(!self.connection) {
+					self.createConnection();
+				}
 			}
 		} else if(event.button == 2) {
 			var x = getClickX(event);
@@ -118,9 +118,9 @@ function Connector(tile, type, side) {
 			if(isInside(self.sprite.x, self.sprite.y,
 					self.sprite.width, self.sprite.height, x, y)) {
 
-				self.deleteConnection();
 				event.preventDefault();
 				event.stopPropagation();
+				self.deleteConnection();
 			}
 		}
 	}, false);
