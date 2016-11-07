@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private static final String[] ACTIVE_CLASSES = new String[] { "Welcome", "AddAnotherClass" };
-    private static final String[] INACTIVE_CLASSES = new String[] { "MissingClass" };
+    private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass" };
 
     private static final String[] scenes = new String[] { "Welcome", "AddAnotherClass" };
 
@@ -50,8 +50,10 @@ public class Main extends Application {
 	if (args.length > 0 && args[0].equals("reinit")) {
 	    Main.reinit();
 	    System.out.println("Reinitialized");
+	    System.exit(0);
+	} else {
+	    launch(args);
 	}
-	launch(args);
     }
 
     public static Class<?> getClass(String className) throws ClassNotFoundException {
