@@ -8,20 +8,18 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private String[] activeClasses;
-    private String[] inactiveClasses;
+    private static final String[] activeClasses = new String[] { "Welcome", "AddAnotherClass" };
+    private static final String[] inactiveClasses = new String[] { "MissingClass" };
+
     private String[] scenes;
 
     public Main() {
-	activeClasses = new String[] { "Welcome" };
-	inactiveClasses = new String[] {};
-	scenes = new String[] { "Welcome" };
+	scenes = new String[] { "Welcome", "AddAnotherClass" };
     }
 
     @Override
     public void start(Stage primaryStage) {
 	try {
-	    deactivate("Dummy");
 	    Scene scene = null;
 	    for (String sceneName : scenes) {
 		try {
@@ -38,29 +36,38 @@ public class Main extends Application {
 	    primaryStage.show();
 	} catch (Exception e) {
 	    Alert alert = new Alert(AlertType.ERROR);
-	    alert.setTitle("An error occurred");
+	    alert.setTitle("Error");
 	    alert.setHeaderText("An error occurred");
 	    alert.setContentText("The game is being reinitialized.\nPlease run again to play.");
 	    alert.show();
-	    for (String activeClass : activeClasses) {
-		activate(activeClass);
-	    }
-	    for (String inactiveClass : inactiveClasses) {
-		deactivate(inactiveClass);
-	    }
+	    reinit();
 	}
     }
 
     public static void main(String[] args) {
+	if (args.length > 0 && args[0].equals("reinit")) {
+	    Main.reinit();
+	    System.out.println("Reinitialized");
+	}
 	launch(args);
     }
 
-    private void activate(String name) {
+    private static void reinit() {
+	for (String activeClass : activeClasses) {
+	    activate(activeClass);
+	}
+	for (String inactiveClass : inactiveClasses) {
+	    deactivate(inactiveClass);
+	}
+
+    }
+
+    private static void activate(String name) {
 	File file = new File("./bin/inactive/" + name + ".class");
 	file.renameTo(new File("./bin/active/" + name + ".class"));
     }
 
-    private void deactivate(String name) {
+    private static void deactivate(String name) {
 	File file = new File("./bin/active/" + name + ".class");
 	file.renameTo(new File("./bin/inactive/" + name + ".class"));
     }
