@@ -24,7 +24,7 @@ var background;
 var audioManager;
 var gameOver = false;
 var gameStarted = false;
-var wireColor = 0x06e6ff;
+var wireColor = 0x000000;
 
 var map;
 var shop;

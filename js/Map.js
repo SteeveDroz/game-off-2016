@@ -700,7 +700,7 @@ function Trash(map) {
 
 extend(Machine, Trash);
 
-function DoubleSwitch(map) {
+function DoubleHandSwitch(map) {
 	Machine.call(this, 9, map);
 
 	this.name = "double switch";
@@ -735,9 +735,9 @@ function DoubleSwitch(map) {
 	}, false);
 }
 
-extend(Machine, DoubleSwitch);
+extend(Machine, DoubleHandSwitch);
 
-DoubleSwitch.prototype.update = function() {
+DoubleHandSwitch.prototype.update = function() {
 	Machine.prototype.update.call(this);
 
 	if(this.dead) {
@@ -750,6 +750,52 @@ DoubleSwitch.prototype.update = function() {
 			this.onEnd(file);
 
 			this.connectors[this.currentConnector].transferFile(file);
+		}
+
+		this.delay = this.maxDelay;
+	} else {
+		this.delay--;
+	}
+};
+
+function DoubleAutoSwitch(map) {
+	Machine.call(this, 10, map);
+
+	this.name = "double switch";
+	this.type = TileType.AUTO_SWITCH;
+	this.currentConnector = Side.RIGHT;
+
+	var self = this;
+
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
+		self.onRecive(file);
+	});
+
+	this.addConnector(ConnectorType.OUT, Side.RIGHT);
+	this.addConnector(ConnectorType.OUT, Side.LEFT);
+}
+
+extend(Machine, DoubleAutoSwitch);
+
+DoubleAutoSwitch.prototype.update = function() {
+	Machine.prototype.update.call(this);
+
+	if(this.dead) {
+		return;
+	}
+
+	if(this.delay <= 0) {
+		if(this.files.length > 0) {
+			var file = this.files.shift();
+			this.onEnd(file);
+
+			this.connectors[this.currentConnector].transferFile(file);
+
+			if(this.currentConnector == Side.RIGHT) {
+				this.currentConnector = Side.LEFT
+			} else {
+				this.currentConnector = Side.RIGHT;
+			}
 		}
 
 		this.delay = this.maxDelay;
