@@ -7,6 +7,7 @@ var Texture = PIXI.Texture;
 var Sprite = PIXI.Sprite;
 var Text = PIXI.Text;
 var Graphics = PIXI.Graphics;
+var Rectangle = PIXI.Rectangle;
 
 var viewSize = [1920, 1080];
 var ratio = viewSize[0] / viewSize[1];

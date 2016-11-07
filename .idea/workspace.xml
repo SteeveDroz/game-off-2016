@@ -23,16 +23,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Map.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GamePlay.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/states/GamePlay.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="377">
+              <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Map.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/Map.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="797" column="13" selection-start-line="797" selection-start-column="13" selection-end-line="797" selection-end-column="13" />
+            <state relative-caret-position="179">
+              <caret line="803" column="32" selection-start-line="803" selection-start-column="32" selection-end-line="803" selection-end-column="32" />
               <folding>
-                <element signature="e#2631#3081#0" expanded="false" />
-                <element signature="e#6981#7039#0" expanded="false" />
-                <element signature="e#7596#7751#0" expanded="false" />
-                <element signature="e#7789#7793#0" expanded="false" />
+                <element signature="e#2687#3137#0" expanded="false" />
+                <element signature="e#7037#7095#0" expanded="false" />
+                <element signature="e#7652#7807#0" expanded="false" />
+                <element signature="e#7845#7849#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -41,8 +51,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+            <state relative-caret-position="324">
+              <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -51,18 +61,28 @@
       <file leaf-file-name="Shop.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Shop.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1494">
-              <caret line="104" column="77" selection-start-line="104" selection-start-column="77" selection-end-line="104" selection-end-column="77" />
+            <state relative-caret-position="270">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+            <state relative-caret-position="162">
+              <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="styles.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/styles.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -93,14 +113,14 @@
         <option value="$PROJECT_DIR$/elements.css" />
         <option value="$PROJECT_DIR$/js/Win.js" />
         <option value="$PROJECT_DIR$/js/states/Win.js" />
-        <option value="$PROJECT_DIR$/styles.css" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/states/GamePlay.js" />
         <option value="$PROJECT_DIR$/js/states/GameOver.js" />
+        <option value="$PROJECT_DIR$/js/states/GamePlay.js" />
+        <option value="$PROJECT_DIR$/js/config.js" />
         <option value="$PROJECT_DIR$/js/Shop.js" />
         <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/styles.css" />
         <option value="$PROJECT_DIR$/js/Map.js" />
-        <option value="$PROJECT_DIR$/js/config.js" />
       </list>
     </option>
   </component>
@@ -286,15 +306,15 @@
       <workItem from="1478240915285" duration="25958000" />
       <workItem from="1478316719521" duration="27983000" />
       <workItem from="1478424516716" duration="14677000" />
-      <workItem from="1478535022613" duration="1272000" />
+      <workItem from="1478535022613" duration="3726000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116388000" />
+    <option name="totallyTimeSpent" value="118842000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="314" y="229" width="1378" height="894" extended-state="0" />
+    <frame x="314" y="229" width="1378" height="894" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1810219" sideWeight="0.49512196" order="0" side_tool="false" content_ui="combo" />
@@ -396,10 +416,10 @@
         <state relative-caret-position="7362">
           <caret line="440" column="29" selection-start-line="440" selection-start-column="29" selection-end-line="440" selection-end-column="29" />
           <folding>
-            <element signature="e#2631#3081#0" expanded="false" />
-            <element signature="e#6981#7039#0" expanded="false" />
-            <element signature="e#7596#7751#0" expanded="false" />
-            <element signature="e#7789#7793#0" expanded="false" />
+            <element signature="e#2687#3137#0" expanded="false" />
+            <element signature="e#7037#7095#0" expanded="false" />
+            <element signature="e#7652#7807#0" expanded="false" />
+            <element signature="e#7845#7849#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -433,10 +453,10 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#2631#3081#0" expanded="false" />
-            <element signature="e#6981#7039#0" expanded="false" />
-            <element signature="e#7596#7751#0" expanded="false" />
-            <element signature="e#7789#7793#0" expanded="false" />
+            <element signature="e#2687#3137#0" expanded="false" />
+            <element signature="e#7037#7095#0" expanded="false" />
+            <element signature="e#7652#7807#0" expanded="false" />
+            <element signature="e#7845#7849#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -549,26 +569,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/states/Win.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="1" column="46" selection-start-line="1" selection-start-column="46" selection-end-line="1" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/states/GamePlay.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="54" column="20" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -597,40 +601,56 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/states/GamePlay.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/Shop.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1494">
-          <caret line="104" column="77" selection-start-line="104" selection-start-column="77" selection-end-line="104" selection-end-column="77" />
+        <state relative-caret-position="270">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+        <state relative-caret-position="324">
+          <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/Map.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="797" column="13" selection-start-line="797" selection-start-column="13" selection-end-line="797" selection-end-column="13" />
+        <state relative-caret-position="179">
+          <caret line="803" column="32" selection-start-line="803" selection-start-column="32" selection-end-line="803" selection-end-column="32" />
           <folding>
-            <element signature="e#2631#3081#0" expanded="false" />
-            <element signature="e#6981#7039#0" expanded="false" />
-            <element signature="e#7596#7751#0" expanded="false" />
-            <element signature="e#7789#7793#0" expanded="false" />
+            <element signature="e#2687#3137#0" expanded="false" />
+            <element signature="e#7037#7095#0" expanded="false" />
+            <element signature="e#7652#7807#0" expanded="false" />
+            <element signature="e#7845#7849#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>

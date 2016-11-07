@@ -105,6 +105,7 @@ function Connector(tile, type, side) {
 					self.createConnection();
 				}
 
+				event.preventDefault();
 				event.stopPropagation();
 			}
 		} else if(event.button == 2) {
@@ -118,6 +119,7 @@ function Connector(tile, type, side) {
 					self.sprite.width, self.sprite.height, x, y)) {
 
 				self.deleteConnection();
+				event.preventDefault();
 				event.stopPropagation();
 			}
 		}
@@ -707,6 +709,8 @@ function DoubleHandSwitch(map) {
 	this.type = TileType.SWITCH;
 	this.currentConnector = Side.RIGHT;
 
+	this.applyTexture();
+
 	var self = this;
 
 	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
@@ -731,6 +735,8 @@ function DoubleHandSwitch(map) {
 			} else {
 				self.currentConnector = Side.RIGHT;
 			}
+
+			self.applyTexture();
 		}
 	}, false);
 }
@@ -758,12 +764,21 @@ DoubleHandSwitch.prototype.update = function() {
 	}
 };
 
+DoubleHandSwitch.prototype.applyTexture = function() {
+	if(this.currentConnector == Side.RIGHT) {
+		this.sprite.texture = textures["assets/images/tile" + this.id + "second.png"];
+	} else {
+		this.sprite.texture = textures["assets/images/tile" + this.id + ".png"];
+	}
+};
+
 function DoubleAutoSwitch(map) {
 	Machine.call(this, 10, map);
 
 	this.name = "double switch";
 	this.type = TileType.AUTO_SWITCH;
 	this.currentConnector = Side.RIGHT;
+	this.applyTexture();
 
 	var self = this;
 
@@ -786,6 +801,8 @@ DoubleAutoSwitch.prototype.update = function() {
 
 	if(this.delay <= 0) {
 		if(this.files.length > 0) {
+			this.applyTexture();
+
 			var file = this.files.shift();
 			this.onEnd(file);
 
@@ -801,6 +818,14 @@ DoubleAutoSwitch.prototype.update = function() {
 		this.delay = this.maxDelay;
 	} else {
 		this.delay--;
+	}
+};
+
+DoubleAutoSwitch.prototype.applyTexture = function() {
+	if(this.currentConnector == Side.RIGHT) {
+		this.sprite.texture = textures["assets/images/tile" + this.id + "second.png"];
+	} else {
+		this.sprite.texture = textures["assets/images/tile" + this.id + ".png"];
 	}
 };
 

@@ -40,7 +40,7 @@ GamePlay.prototype.nextWave = function() {
 		fileSpeed = 8;
 	}
 
-	if(wave >= 10) {
+	if(wave > 5) {
 		enterState("win");
 	}
 };
