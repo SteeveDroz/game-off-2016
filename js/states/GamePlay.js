@@ -1,9 +1,6 @@
 function GamePlay() {
 	this.scene = new Container();
 	this.gui = document.getElementById("gamePlay");
-	this.cpuLabel = document.getElementById("serverCPU");
-	this.memLabel = document.getElementById("serverMEM");
-	this.filesLost = document.getElementById("filesLost");
 	this.moneyLabel = document.getElementById("money");
 	this.waveLabel = document.getElementById("wave");
 
@@ -27,7 +24,7 @@ function GamePlay() {
 }
 
 GamePlay.prototype.resize = function() {
-	this.scene.x = Math.floor((window.innerWidth - this.scene.width) / 2);
+	this.scene.x = Math.floor((window.innerWidth - 300 - this.scene.width) / 2);
 	this.scene.y = Math.floor((window.innerHeight - this.scene.height) / 2);
 };
 
@@ -75,9 +72,6 @@ GamePlay.prototype.leave = function() {
 GamePlay.prototype.update = function() {
 	map.update();
 
-	// this.cpuLabel.innerHTML = Math.floor((map.server.cpu / map.server.maxCpu) * 100) + "%";
-	// this.memLabel.innerHTML = Math.floor((map.server.memory / map.server.maxMemory) * 100) + "%";
-	this.filesLost.innerHTML = filesLost;
 	this.moneyLabel.innerHTML = money + "$";
 	this.waveLabel.innerHTML = wave;
 

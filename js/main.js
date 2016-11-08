@@ -17,6 +17,12 @@ function onDocumentReady() {
 		"assets/images/tile9second.png").add(
 		"assets/images/tile10.png").add(
 		"assets/images/tile10second.png").add(
+		"assets/images/tile11.png").add(
+		"assets/images/tile11second.png").add(
+		"assets/images/tile11third.png").add(
+		"assets/images/tile12.png").add(
+		"assets/images/tile12second.png").add(
+		"assets/images/tile12third.png").add(
 		"assets/images/connector0.png").add(
 		"assets/images/connector1.png").add(
 		"assets/images/file0.png").add(

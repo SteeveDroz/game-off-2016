@@ -707,7 +707,7 @@ function DoubleHandSwitch(map) {
 
 	this.name = "double switch";
 	this.type = TileType.SWITCH;
-	this.currentConnector = Side.RIGHT;
+	this.currentConnector = Side.LEFT;
 
 	this.applyTexture();
 
@@ -777,7 +777,7 @@ function DoubleAutoSwitch(map) {
 
 	this.name = "double switch";
 	this.type = TileType.AUTO_SWITCH;
-	this.currentConnector = Side.RIGHT;
+	this.currentConnector = Side.LEFT;
 	this.applyTexture();
 
 	var self = this;
@@ -824,6 +824,143 @@ DoubleAutoSwitch.prototype.update = function() {
 DoubleAutoSwitch.prototype.applyTexture = function() {
 	if(this.currentConnector == Side.RIGHT) {
 		this.sprite.texture = textures["assets/images/tile" + this.id + "second.png"];
+	} else {
+		this.sprite.texture = textures["assets/images/tile" + this.id + ".png"];
+	}
+};
+
+function TripleHandSwitch(map) {
+	Machine.call(this, 11, map);
+
+	this.name = "triple switch";
+	this.type = TileType.SWITCH;
+	this.currentConnector = Side.LEFT;
+
+	this.applyTexture();
+
+	var self = this;
+
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
+		self.onRecive(file);
+	});
+
+	this.addConnector(ConnectorType.OUT, Side.RIGHT);
+	this.addConnector(ConnectorType.OUT, Side.DOWN);
+	this.addConnector(ConnectorType.OUT, Side.LEFT);
+
+	window.addEventListener("click", function() {
+		var x = getClickX(event);
+		var y = getClickY(event);
+
+		x -= mapScene.position.x;
+		y -= mapScene.position.y;
+
+		if(isInside(self.sprite.x, self.sprite.y,
+				self.sprite.width, self.sprite.height, x, y)) {
+
+			if(self.currentConnector == Side.RIGHT) {
+				self.currentConnector = Side.DOWN
+			} else if(self.currentConnector == Side.DOWN){
+				self.currentConnector = Side.LEFT;
+			} else {
+				self.currentConnector = Side.RIGHT;
+			}
+
+			self.applyTexture();
+		}
+	}, false);
+}
+
+extend(Machine, TripleHandSwitch);
+
+TripleHandSwitch.prototype.update = function() {
+	Machine.prototype.update.call(this);
+
+	if(this.dead) {
+		return;
+	}
+
+	if(this.delay <= 0) {
+		if(this.files.length > 0) {
+			var file = this.files.shift();
+			this.onEnd(file);
+
+			this.connectors[this.currentConnector].transferFile(file);
+		}
+
+		this.delay = this.maxDelay;
+	} else {
+		this.delay--;
+	}
+};
+
+TripleHandSwitch.prototype.applyTexture = function() {
+	if(this.currentConnector == Side.RIGHT) {
+		this.sprite.texture = textures["assets/images/tile" + this.id + "second.png"];
+	} else if(this.currentConnector == Side.DOWN) {
+		this.sprite.texture = textures["assets/images/tile" + this.id + "third.png"];
+	} else {
+		this.sprite.texture = textures["assets/images/tile" + this.id + ".png"];
+	}
+};
+
+function TripleAutoSwitch(map) {
+	Machine.call(this, 12, map);
+
+	this.name = "double switch";
+	this.type = TileType.AUTO_SWITCH;
+	this.currentConnector = Side.LEFT;
+	this.applyTexture();
+
+	var self = this;
+
+	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
+		self.onRecive(file);
+	});
+
+	this.addConnector(ConnectorType.OUT, Side.RIGHT);
+	this.addConnector(ConnectorType.OUT, Side.DOWN);
+	this.addConnector(ConnectorType.OUT, Side.LEFT);
+}
+
+extend(Machine, TripleAutoSwitch);
+
+TripleAutoSwitch.prototype.update = function() {
+	Machine.prototype.update.call(this);
+
+	if(this.dead) {
+		return;
+	}
+
+	if(this.delay <= 0) {
+		if(this.files.length > 0) {
+			this.applyTexture();
+
+			var file = this.files.shift();
+			this.onEnd(file);
+
+			this.connectors[this.currentConnector].transferFile(file);
+
+			if(this.currentConnector == Side.RIGHT) {
+				this.currentConnector = Side.DOWN
+			} else if(this.currentConnector == Side.DOWN){
+				this.currentConnector = Side.LEFT;
+			} else {
+				this.currentConnector = Side.RIGHT;
+			}
+		}
+
+		this.delay = this.maxDelay;
+	} else {
+		this.delay--;
+	}
+};
+
+TripleAutoSwitch.prototype.applyTexture = function() {
+	if(this.currentConnector == Side.RIGHT) {
+		this.sprite.texture = textures["assets/images/tile" + this.id + "second.png"];
+	} else if(this.currentConnector == Side.DOWN) {
+		this.sprite.texture = textures["assets/images/tile" + this.id + "third.png"];
 	} else {
 		this.sprite.texture = textures["assets/images/tile" + this.id + ".png"];
 	}

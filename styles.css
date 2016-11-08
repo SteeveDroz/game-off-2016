@@ -82,16 +82,6 @@
 
 }
 
-#left-panel {
-    left: 0;
-    position: fixed;
-    width: 178px;
-    height: 100%;
-    border-right: solid #08ebfe 2px;
-    background-color: #000000;
-    padding: 10px;
-}
-
 #right-panel {
     right: 0;
     position: fixed;

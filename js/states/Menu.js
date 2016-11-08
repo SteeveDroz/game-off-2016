@@ -39,11 +39,11 @@ Menu.prototype.enter = function() {
 };
 
 Menu.prototype.leave = function() {
-	if(currentState instanceof GamePlay) {
-		stage.removeChild(this.scene);
-
-		this.scene.visible = false;
-	}
+	// if(currentState instanceof GamePlay) {
+	// 	stage.removeChild(this.scene);
+	//
+	// 	this.scene.visible = false;
+	// }
 
 	this.gui.style.display = "none";
 };
