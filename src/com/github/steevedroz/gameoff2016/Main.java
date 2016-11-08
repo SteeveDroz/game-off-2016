@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private static final String[] ACTIVE_CLASSES = new String[] { "Welcome", "AddAnotherClass", "Bus" };
-    private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass", "MyCrew" };
+    private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass", "MyCrew", "Driver" };
 
     private static final String[] scenes = new String[] { "Welcome", "AddAnotherClass", "Bus" };
 

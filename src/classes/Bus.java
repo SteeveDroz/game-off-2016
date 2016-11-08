@@ -19,7 +19,9 @@ public class Bus extends Scene {
 
     private void initializeComponents() throws InstantiationException, IllegalAccessException {
 	try {
-	    Main.getClass("Driver");
+	    Class<?> driverClass = Main.getClass("Driver");
+	    Pane driver = (Pane) driverClass.newInstance();
+	    root.getChildren().add(driver);
 	    putPeopleInTheBus();
 	} catch (ClassNotFoundException exception) {
 	    Label noDriver = new Label("The bus won't move without the driver.");
