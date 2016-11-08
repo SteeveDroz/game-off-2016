@@ -12,19 +12,17 @@ Download project, unzip it and put it contents in your server's root. You are re
 Basic idea is that you need to filtrate files comming to server, and reveal dangerous files and scripts.
 To connect machines together, draw a line between machines connectors. Red connector is for ouput and green ones are for input.
 
-// TODO: img
+![](https://raw.githubusercontent.com/egordorichev/Server-Defense/gh-pages/image1.gif)
 
 When you have connected all machines, press "Start" button.
 
 You will see files traveling along wires, you created:
 
-// TODO: img
+![](https://raw.githubusercontent.com/egordorichev/Server-Defense/gh-pages/image2.gif)
 
 #### Buying stuff
 
 To buy something in the shop, simply drag that item icon to a free place:
-
-// TODO: img
 
 #### Winning
 
