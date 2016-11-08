@@ -18,6 +18,8 @@ GameOver.prototype.enter = function() {
 	map.servers.forEach(function(server) {
 		if(server.infected) {
 			self.whyLabel.innerHTML = "Your server" + s + " got a virus.";
+		} else if(server.hacked) {
+			self.whyLabel.innerHTML = "Your server" + s + " " + ((map.servers.length > 1) ? "are" : "is") + " hacked";
 		} else if(server.dead) {
 			if(server.memory >= server.maxMemory) {
 				self.whyLabel.innerHTML = "Your server" + s + " run out of memory.";

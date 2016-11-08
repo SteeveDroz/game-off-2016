@@ -1,8 +1,10 @@
 function onDocumentReady() {
 	stage = new Container();
-
 	renderer = autoDetectRenderer(viewSize[0], viewSize[1], null);
+
 	document.getElementById("gameCanvas").appendChild(renderer.view);
+
+	tileInfoPanel = new TileInfoPanel();
 
 	loader.add("assets/images/tile0.png").add(
 		"assets/images/tile1.png").add(
@@ -28,6 +30,7 @@ function onDocumentReady() {
 		"assets/images/file0.png").add(
 		"assets/images/file1.png").add(
 		"assets/images/file2.png").add(
+		"assets/images/file3.png").add(
 		"background", "assets/images/background.png").load(setup);
 
 	window.onbeforeunload = function () {

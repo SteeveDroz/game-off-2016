@@ -41,6 +41,8 @@ var connections = [];
 var firstTime = false;
 var wave = 1;
 
+var tileInfoPanel;
+
 function getClickX(event) {
 	var x;
 

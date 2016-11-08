@@ -36,6 +36,20 @@
 					</form>
 				</div>
 				<div id='gamePlay'>
+                    <div id='tileInfoWrapper'>
+                        <div id='tileInfo'>
+                            <div id='tileName' class='blue'></div>
+                            <div id='tileSpec'>
+                                <span class='gray'>
+                                    CPU: <progress id='cpuUsage' value='0' max='100'/>
+                                </span>
+                                <span class='gray'>
+                                    MEM: <progress id='memoryUsage' value='0' max='100'/>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id='right-panel'>
                         <span class='gray bold' data-intro='There you can buy some more stuff'>Shop</span><span id='money' class='right'>0$</span>
                         <br/>
@@ -49,30 +63,35 @@
                         Wave <span id='wave'>1</span>
                         <br/>
                         <br/>
+
                         <button id='start' onclick='startOrPauseGame()'>Start</button>
                         <button onclick='window.location.reload()'><span>Back to the menu</span></button>
                     </div>
 				</div>
                 <div id='gameOver'>
-                    <span class='white bold'>Game over!</span>
-                    <br/>
-                    <br/>
-                    <span id='why'></span>
-                    <br/>
-                    <br/>
-                    <span class='white'>
-                        Score: <span id='scoreOver'>0</span>
-                    </span>
-                    <br/>
-                    <br/>
+                    <div class='content'>
+                        <span class='white bold'>Game over!</span>
+                        <br/>
+                        <br/>
+                        <span id='why'></span>
+                        <br/>
+                        <br/>
+                        <span class='white'>
+                            Score: <span id='scoreOver'>0</span>
+                        </span>
+                        <br/>
+                        <br/>
+                    </div>
                     <button onclick='window.location.reload()'>Back to the menu</button>
                 </div>
                 <div id='win'>
-                    <span class='white bold'>You win!</span>
-                    <br/>
-                    <span>
-                        Score: <span id='scoreWin'>0</span>
-                    </span>
+                    <div class='content'>
+                        <span class='white bold'>You win!</span>
+                        <br/>
+                        <span>
+                            Score: <span id='scoreWin'>0</span>
+                        </span>
+                    </div>
                     <button onclick='window.location.reload()'>Back to the menu</button>
                 </div>
 				<div id='settings'>

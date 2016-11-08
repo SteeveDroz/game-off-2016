@@ -19,7 +19,8 @@ var ConnectorType = {
 
 var FileType = {
 	NORMAL : 1,
-	VIRUS : 2
+	VIRUS : 2,
+	SQL_SCRIPT : 3
 };
 
 function File(type) {
@@ -219,10 +220,12 @@ function Connection(firstConnector, secondConnector) {
 					return;
 				}
 
-				if(con.type === self.firstConnector.type) {
-				 	self.delete(con);
-					return;
-				}
+				// if(con.type === self.firstConnector.type) {
+				// 	console.log("same");
+
+				 	// self.delete(con);
+					// return;
+				// }
 
 				if(con.tile != self.firstConnector.tile) {
 					var deltaX = con.tile.x - self.firstConnector.tile.x;
@@ -343,6 +346,68 @@ var Side = {
 	CENTER : 4
 };
 
+function TileInfoPanel() {
+	this.wrapper = document.getElementById("tileInfoWrapper");
+	this.info = document.getElementById("tileInfo");
+	this.cpuUsage = document.getElementById("cpuUsage");
+	this.memoryUsage = document.getElementById("memoryUsage");
+	this.tileName = document.getElementById("tileName");
+	this.hidden = true;
+	this.tile = null;
+
+	var self = this;
+
+	window.addEventListener("click", function() {
+		if(isInside(mapScene.x, mapScene.y,
+				mapScene.width, mapScene.height,
+				getClickX(event), getClickY(event))) {
+
+			var tile = map.getTile(Math.floor((getClickX(event) - mapScene.x) / 64),
+				Math.floor((getClickY(event) - mapScene.y) / 64));
+
+			if(tile instanceof Machine) {
+				self.show(tile);
+			} else {
+				self.hide();
+			}
+		}
+	}, false);
+}
+
+function toTitleCase(str) { // http://stackoverflow.com/a/4878800/4741065
+	return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
+TileInfoPanel.prototype.show = function(tile) {
+	this.hidden = false;
+	this.tile = tile;
+
+	this.tileName.innerHTML = toTitleCase(tile.name);
+	this.cpuUsage.value = tile.cpu;
+	this.cpuUsage.max = tile.maxCpu;
+	this.memoryUsage.value = tile.memory;
+	this.memoryUsage.max = tile.maxMemory;
+
+	this.wrapper.style.display = "block";
+	this.wrapper.style.left = tile.sprite.x - 75 + 27 + mapScene.x + "px";
+	this.wrapper.style.top = tile.sprite.y - this.info.offsetHeight + 10 + mapScene.y + "px";
+};
+
+TileInfoPanel.prototype.hide = function() {
+	this.hidden = true;
+	this.tile = null;
+	this.wrapper.style.display = "none";
+};
+
+TileInfoPanel.prototype.update = function() {
+	if(!this.hidden) {
+		this.cpuUsage.value = this.tile.cpu;
+		this.cpuUsage.max = this.tile.maxCpu;
+		this.memoryUsage.value = this.tile.memory;
+		this.memoryUsage.max = this.tile.maxMemory;
+	}
+};
+
 function Tile(id, map) {
 	this.id = id;
 	this.map = map;
@@ -378,6 +443,15 @@ Tile.prototype.update = function() {
 
 };
 
+function Upgrade(cost, upgrade) {
+	this.cost = cost;
+	this.upgrade = upgrade;
+}
+
+Upgrade.prototype.apply = function(machine) {
+	this.upgrade(machine);
+};
+
 function Machine(id, map) {
 	Tile.call(this, id, map);
 
@@ -391,9 +465,29 @@ function Machine(id, map) {
 	this.files = [];
 	this.delay = 0;
 	this.maxDelay = 30;
+	this.level = 1;
+	this.upgrades = [];
 }
 
 extend(Tile, Machine);
+
+Machine.prototype.upgrade = function() {
+	if(this.level == this.upgrades.length) {
+		return false;
+	}
+
+	if(this.upgrades[this.level + 1].cost > money) {
+		return false;
+	}
+
+	this.level++;
+	money -= this.upgrades[this.level].cost;
+	this.upgrades[this.level](this);
+};
+
+Machine.prototype.addUpgrade = function(cost, upgrade) {
+	this.upgrades.push(new Upgrade(cost, upgrade));
+};
 
 Machine.prototype.update = function() {
 	if(this.dead) {
@@ -433,13 +527,35 @@ function Server(map) {
 	this.type = TileType.SERVER;
 	this.maxDelay = 120;
 	this.infected = false;
+	this.hacked = false;
 
 	var self = this;
+
+	this.addUpgrade(500, function(machine) {
+		machine.maxDelay -= 20;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
+
+	this.addUpgrade(300, function(machine) {
+		machine.maxDelay -= 20;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
+
+	this.addUpgrade(500, function(machine) {
+		machine.maxDelay -= 20;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
 
 	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
 		self.onRecive(file);
 
-		if(file.type == FileType.VIRUS) {
+		if(file.type == FileType.SQL_SCRIPT){
+			self.dead = true;
+			self.hacked = true;
+		} else if(file.type == FileType.VIRUS) {
 			self.dead = true;
 			self.infected = true;
 		}
@@ -508,8 +624,12 @@ EthernetConnector.prototype.update = function() {
 };
 
 EthernetConnector.prototype.randomFile = function() {
+	console.log("new");
+
 	if(Math.random() < 0.2) {
 		return new File(FileType.VIRUS);
+	} else if(wave > 2 && Math.random() < 0.2) {
+		return new File(FileType.SQL_SCRIPT);
 	} else {
 		return new File(FileType.NORMAL);
 	}
@@ -1052,6 +1172,8 @@ Map.prototype.update = function() {
 	connections.forEach(function(connection) {
 		connection.update();
 	});
+
+	tileInfoPanel.update();
 
 	var oneOrMoreServersAreUp = false;
 
