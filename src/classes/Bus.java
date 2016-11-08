@@ -33,7 +33,7 @@ public class Bus extends Scene {
 
     private void putPeopleInTheBus() throws InstantiationException, IllegalAccessException {
 	boolean somePeople = false;
-	boolean otherPeople = false;
+	boolean threePeople = false;
 	boolean everybody = false;
 	try {
 	    Class<?> somePeopleClass = Main.getClass("SomePeople");
@@ -43,10 +43,10 @@ public class Bus extends Scene {
 	} catch (ClassNotFoundException exception) {
 	}
 	try {
-	    Class<?> otherPeopleClass = Main.getClass("OtherPeople");
-	    Pane otherPeoplePane = (Pane) otherPeopleClass.newInstance();
-	    root.getChildren().add(otherPeoplePane);
-	    otherPeople = true;
+	    Class<?> threePeopleClass = Main.getClass("ThreePeople");
+	    Pane threePeoplePane = (Pane) threePeopleClass.newInstance();
+	    root.getChildren().add(threePeoplePane);
+	    threePeople = true;
 	} catch (ClassNotFoundException exception) {
 	}
 	try {
@@ -60,7 +60,7 @@ public class Bus extends Scene {
 	int people = 0;
 	if (somePeople)
 	    people += 1;
-	if (otherPeople)
+	if (threePeople)
 	    people += 2;
 	if (everybody)
 	    people += 4;
