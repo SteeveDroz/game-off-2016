@@ -32,6 +32,9 @@ public class Main extends Application {
 		    continue;
 		}
 	    }
+	    if (scene == null) {
+		throw new ClassNotFoundException();
+	    }
 	    primaryStage.setScene(scene);
 	    primaryStage.setTitle("GitHub Game Off 2016 (WORKING TITLE)");
 	    primaryStage.show();
@@ -41,7 +44,7 @@ public class Main extends Application {
 	    alert.setTitle("Error");
 	    alert.setHeaderText("An error occurred");
 	    alert.setContentText("The game is being reinitialized.\nPlease run again to play.");
-	    alert.show();
+	    alert.showAndWait();
 	    reinit();
 	}
     }
