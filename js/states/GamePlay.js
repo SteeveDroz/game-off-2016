@@ -38,6 +38,8 @@ GamePlay.prototype.nextWave = function() {
 	}
 
 	if(wave > 5) {
+		money += 1000 + filesPassed;
+
 		enterState("win");
 	}
 };
