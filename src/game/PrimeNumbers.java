@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.com.github.steevedroz.powercycle.Main;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -11,19 +12,30 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class PrimeNumbers extends Scene {
     private static final int MAX = 49;
     private FlowPane root;
     private Label response;
 
-    public PrimeNumbers() {
-	super(new FlowPane(), 245, 270);
+    public PrimeNumbers() throws InstantiationException, IllegalAccessException {
+	super(new FlowPane(), 245, 300);
 	root = (FlowPane) getRoot();
 	initializeComponents();
     }
 
-    private void initializeComponents() {
+    private void initializeComponents() throws InstantiationException, IllegalAccessException {
+	try {
+	    Main.getObject("Driver");
+	} catch (ClassNotFoundException exception) {
+	    Label noSpy = new Label("Only the presence of a spy can trigger the codex	.");
+	    noSpy.prefWidthProperty().bind(root.widthProperty());
+	    noSpy.setWrapText(true);
+	    noSpy.setFont(new Font(24));
+	    root.getChildren().add(noSpy);
+	    return;
+	}
 	for (int i = 1; i <= MAX; i++) {
 	    Label label = new Label("" + i);
 	    label.setPrefWidth(35);
