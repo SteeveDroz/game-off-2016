@@ -109,6 +109,22 @@
     height: 0;
 }
 
+#tileInfoClose {
+    cursor: pointer;
+    color: red;
+    margin-right: 5px;
+}
+
+#upgradeTile {
+    height: 30px;
+    width: 70px;
+    margin-top: 5px;
+}
+
+#upgradeCost {
+    margin-top: 5px;
+}
+
 #cpuUsage, #memoryUsage {
     width: 70px;
     float: right;

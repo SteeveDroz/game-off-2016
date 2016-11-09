@@ -210,30 +210,20 @@ function Connection(firstConnector, secondConnector) {
 			});
 
 			if(con != null) {
-				if(con.connection) {
-					self.delete(con);
-					return;
-				}
-
 				if(con == self.firstConnector) {
 					self.delete(con);
 					return;
 				}
 
-				// if(con.type === self.firstConnector.type) {
-				// 	console.log("same");
-
-				 	// self.delete(con);
-					// return;
-				// }
+				if(con.type === self.firstConnector.type) {
+				 	self.delete(con);
+					return;
+				}
 
 				if(con.tile != self.firstConnector.tile) {
-					var deltaX = con.tile.x - self.firstConnector.tile.x;
-					var deltaY = con.tile.y - self.firstConnector.tile.y;
-
-					// if(deltaX > 2 || deltaX < -2 || deltaY > 2 || deltaY < -2) {
-					// 	self.delete();
-					// }
+					if(con.connection) {
+						con.deleteConnection();
+					}
 
 					con.connection = self;
 					self.connected = true;
@@ -352,24 +342,32 @@ function TileInfoPanel() {
 	this.cpuUsage = document.getElementById("cpuUsage");
 	this.memoryUsage = document.getElementById("memoryUsage");
 	this.tileName = document.getElementById("tileName");
+	this.closeButton = document.getElementById("tileInfoClose");
+	this.upgradeContainer = document.getElementById("upgrade");
+	this.upgradeButton = document.getElementById("upgradeTile");
+	this.upgradeCost = document.getElementById("upgradeCost");
 	this.hidden = true;
 	this.tile = null;
 
 	var self = this;
 
-	window.addEventListener("click", function() {
+	this.closeButton.addEventListener("click", function() {
+		self.hide();
+	}, false);
+
+	window.addEventListener("dblclick", function(event) {
 		if(isInside(mapScene.x, mapScene.y,
-				mapScene.width, mapScene.height,
-				getClickX(event), getClickY(event))) {
+				 mapScene.width, mapScene.height,
+				 getClickX(event), getClickY(event))) {
 
-			var tile = map.getTile(Math.floor((getClickX(event) - mapScene.x) / 64),
-				Math.floor((getClickY(event) - mapScene.y) / 64));
+			 var tile = map.getTile(Math.floor((getClickX(event) - mapScene.x) / 64),
+				 Math.floor((getClickY(event) - mapScene.y) / 64));
 
-			if(tile instanceof Machine) {
-				self.show(tile);
-			} else {
-				self.hide();
-			}
+			 if(tile instanceof Machine) {
+				 self.show(tile);
+			 } else {
+				 self.hide();
+			 }
 		}
 	}, false);
 }
@@ -382,15 +380,42 @@ TileInfoPanel.prototype.show = function(tile) {
 	this.hidden = false;
 	this.tile = tile;
 
-	this.tileName.innerHTML = toTitleCase(tile.name);
-	this.cpuUsage.value = tile.cpu;
-	this.cpuUsage.max = tile.maxCpu;
-	this.memoryUsage.value = tile.memory;
-	this.memoryUsage.max = tile.maxMemory;
+	if(this.tile.level >= tile.upgrades.length) {
+		this.upgradeContainer.style.display = "none";
+	} else {
+		this.upgradeContainer.style.display = "block";
+		this.upgradeCost.innerHTML = this.tile.upgrades[this.tile.level - 1].cost + "$";
+
+		var self = this;
+
+		function upgrade() {
+			self.tile.upgrade();
+			self.applyProperties();
+		}
+
+		this.upgradeButton.addEventListener("click", upgrade, false);
+	}
+
+	this.applyProperties();
+};
+
+TileInfoPanel.prototype.applyProperties = function() {
+	if(this.tile.level >= this.tile.upgrades.length) {
+		this.upgradeContainer.style.display = "none";
+	} else {
+		this.upgradeContainer.style.display = "block";
+		this.upgradeCost.innerHTML = this.tile.upgrades[this.tile.level - 1].cost + "$";
+	}
+
+	this.tileName.innerHTML = toTitleCase(this.tile.name) + " lv. " + this.tile.level;
+	this.cpuUsage.value = this.tile.cpu;
+	this.cpuUsage.max = this.tile.maxCpu;
+	this.memoryUsage.value = this.tile.memory;
+	this.memoryUsage.max = this.tile.maxMemory;
 
 	this.wrapper.style.display = "block";
-	this.wrapper.style.left = tile.sprite.x - 75 + 27 + mapScene.x + "px";
-	this.wrapper.style.top = tile.sprite.y - this.info.offsetHeight + 10 + mapScene.y + "px";
+	this.wrapper.style.left = this.tile.sprite.x - 75 + 27 + mapScene.x + "px";
+	this.wrapper.style.top = this.tile.sprite.y - this.info.offsetHeight + 10 + mapScene.y + "px";
 };
 
 TileInfoPanel.prototype.hide = function() {
@@ -476,13 +501,13 @@ Machine.prototype.upgrade = function() {
 		return false;
 	}
 
-	if(this.upgrades[this.level + 1].cost > money) {
+	if(this.upgrades[this.level - 1].cost > money) {
 		return false;
 	}
 
 	this.level++;
-	money -= this.upgrades[this.level].cost;
-	this.upgrades[this.level](this);
+	money -= this.upgrades[this.level - 1].cost;
+	this.upgrades[this.level - 1].apply(this);
 };
 
 Machine.prototype.addUpgrade = function(cost, upgrade) {
