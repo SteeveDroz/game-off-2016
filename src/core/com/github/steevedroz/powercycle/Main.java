@@ -9,6 +9,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    private static Stage STAGE;
+
     private static final String[] ACTIVE_CLASSES = new String[] { "Tutorial", "AddAnotherClass" };
     private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass", "MyCrew", "Bus",
 	    "Driver", "SomePeople", "ThreePeople", "Everybody", "PrimeNumbers" };
@@ -23,6 +25,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 	try {
+	    Main.STAGE = primaryStage;
+	    primaryStage.setTitle("Power Cycle");
 	    Scene scene = null;
 	    for (String sceneName : scenes) {
 		try {
@@ -36,7 +40,6 @@ public class Main extends Application {
 		throw new ClassNotFoundException();
 	    }
 	    primaryStage.setScene(scene);
-	    primaryStage.setTitle("Power Cycle");
 	    primaryStage.show();
 	} catch (Exception e) {
 	    e.printStackTrace();
@@ -59,6 +62,10 @@ public class Main extends Application {
     public static Object getObject(String className)
 	    throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 	return Class.forName(ACTIVE_FOLDER.replace(File.separatorChar, '.') + className).newInstance();
+    }
+
+    public static Stage getStage() {
+	return Main.STAGE;
     }
 
     private static void reinit() {
