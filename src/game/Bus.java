@@ -1,7 +1,6 @@
-package classes;
+package game;
 
-import com.github.steevedroz.gameoff2016.Main;
-
+import core.com.github.steevedroz.gameoff2016.Main;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;

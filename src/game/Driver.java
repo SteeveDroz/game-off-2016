@@ -1,4 +1,4 @@
-package classes;
+package game;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

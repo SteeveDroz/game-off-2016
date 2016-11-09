@@ -1,4 +1,4 @@
-package classes.unused;
+package game.unused;
 
 public class NeverUsed {
 }
