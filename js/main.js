@@ -98,8 +98,8 @@ function updateSoundsLevel() {
 }
 
 function applyCookies() {
-	document.getElementById("music").checked = (Cookies.get("music") == "true") ? true : false;
-	document.getElementById("sounds").checked = (Cookies.get("sounds") == "true") ? true : false;
+	document.getElementById("music").checked = (Cookies.get("music") == "false") ? false: true;
+	document.getElementById("sounds").checked = (Cookies.get("sounds") == "false") ? false : true;
 
 	var moneyValue = Cookies.get("money");
 
