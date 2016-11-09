@@ -24,6 +24,14 @@ You will see files traveling along wires, you created:
 
 To buy something in the shop, simply drag that item icon to a free place:
 
+#### Upgrades and tile info
+
+If you double click on any not emtpy tile, you will see popup, showing tile stats:
+
+![](https://raw.githubusercontent.com/egordorichev/Server-Defense/gh-pages/image3.png)
+
+Here you can upgrade tile, see it's cpu and memory usage and level.
+
 #### Winning
 
 When six wave appears, you win the round! You will recive some more money for the files, that reached your servers.
