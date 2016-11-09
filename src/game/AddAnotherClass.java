@@ -43,5 +43,14 @@ public class AddAnotherClass extends Scene {
 	    root.getChildren().add(myCrew);
 	} catch (ClassNotFoundException exception) {
 	}
+
+	try {
+	    Main.getObject("ThreePeople");
+	    Label higher = new Label("Advice: in life, always aim higher.");
+	    higher.setPadding(new Insets(20, 5, 0, 5));
+	    root.getChildren().add(higher);
+	    Main.getStage().setTitle("Empty, Everybody, MissingClass, Nothing, SomePeople");
+	} catch (ClassNotFoundException exception) {
+	}
     }
 }
