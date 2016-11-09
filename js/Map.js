@@ -352,8 +352,6 @@ function TileInfoPanel() {
 	var self = this;
 
 	this.upgradeButton.addEventListener("click", function() {
-		console.log(self.tile.level, self.tile.upgrades.length);
-
 		self.tile.upgrade();
 		self.applyProperties();
 
@@ -396,7 +394,7 @@ TileInfoPanel.prototype.show = function(tile) {
 };
 
 TileInfoPanel.prototype.applyProperties = function() {
-	if(this.tile.level >= this.tile.upgrades.length) {
+	if(this.tile.level > this.tile.upgrades.length) {
 		this.upgradeContainer.style.display = "none";
 	} else {
 		this.upgradeContainer.style.display = "block";
@@ -493,7 +491,7 @@ function Machine(id, map) {
 extend(Tile, Machine);
 
 Machine.prototype.upgrade = function() {
-	if(this.level == this.upgrades.length) {
+	if(this.level > this.upgrades.length) {
 		return false;
 	}
 
@@ -909,6 +907,24 @@ function DoubleHandSwitch(map) {
 
 	this.applyTexture();
 
+	this.addUpgrade(70, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
+	this.addUpgrade(80, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
+	this.addUpgrade(90, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
 	var self = this;
 
 	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
@@ -978,6 +994,24 @@ function DoubleAutoSwitch(map) {
 	this.currentConnector = Side.LEFT;
 	this.applyTexture();
 
+	this.addUpgrade(90, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
+	this.addUpgrade(100, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
+	this.addUpgrade(60, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
 	var self = this;
 
 	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
@@ -1033,6 +1067,24 @@ function TripleHandSwitch(map) {
 	this.name = "triple switch";
 	this.type = TileType.SWITCH;
 	this.currentConnector = Side.LEFT;
+
+	this.addUpgrade(110, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
+	this.addUpgrade(120, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
+	this.addUpgrade(90, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
 
 	this.applyTexture();
 
@@ -1109,6 +1161,24 @@ function TripleAutoSwitch(map) {
 	this.type = TileType.AUTO_SWITCH;
 	this.currentConnector = Side.LEFT;
 	this.applyTexture();
+
+	this.addUpgrade(120, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
+	this.addUpgrade(40, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
+
+	this.addUpgrade(190, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 5;
+		machine.maxMemory += 5;
+	});
 
 	var self = this;
 
