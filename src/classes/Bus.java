@@ -70,14 +70,24 @@ public class Bus extends Scene {
 
 	switch (people) {
 	case 1:
+	    nextBusStop = 1;
+	    distance = 17;
 	    break;
 	case 3:
+	    nextBusStop = 2;
+	    distance = 23;
 	    break;
 	case 4:
+	    nextBusStop = 5;
+	    distance = 29;
 	    break;
 	case 5:
+	    nextBusStop = 4;
+	    distance = 43;
 	    break;
 	case 7:
+	    nextBusStop = 3;
+	    distance = 19;
 	    break;
 	default:
 	}

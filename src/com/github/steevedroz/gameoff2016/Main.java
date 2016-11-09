@@ -9,8 +9,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private static final String[] ACTIVE_CLASSES = new String[] { "Welcome", "AddAnotherClass", "Bus" };
-    private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass", "MyCrew", "Driver" };
+    private static final String[] ACTIVE_CLASSES = new String[] { "Welcome", "AddAnotherClass" };
+    private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass", "MyCrew", "Bus",
+	    "Driver", "SomePeople", "ThreePeople", "Everybody" };
 
     private static final String[] scenes = new String[] { "Welcome", "AddAnotherClass", "Bus" };
 
