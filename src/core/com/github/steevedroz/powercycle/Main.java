@@ -11,9 +11,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private static final String[] ACTIVE_CLASSES = new String[] { "Welcome", "AddAnotherClass" };
     private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass", "MyCrew", "Bus",
-	    "Driver", "SomePeople", "ThreePeople", "Everybody" };
+	    "Driver", "SomePeople", "ThreePeople", "Everybody", "PrimeNumbers" };
 
-    private static final String[] scenes = new String[] { "Welcome", "AddAnotherClass", "Bus" };
+    private static final String[] scenes = new String[] { "Welcome", "AddAnotherClass", "Bus", "PrimeNumbers" };
 
     private static final String MAIN_DIRECTORY = "." + File.separator;
     private static final String INACTIVE_FOLDER = "game" + File.separator + "unused" + File.separator;
@@ -53,11 +53,8 @@ public class Main extends Application {
     public static void main(String[] args) {
 	if (args.length > 0 && args[0].equals("reinit")) {
 	    Main.reinit();
-	    System.out.println("Reinitialized");
-	    System.exit(0);
-	} else {
-	    launch(args);
 	}
+	launch(args);
     }
 
     public static Class<?> getClass(String className) throws ClassNotFoundException {
