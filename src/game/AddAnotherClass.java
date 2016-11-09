@@ -24,7 +24,7 @@ public class AddAnotherClass extends Scene {
 	instructions[0] = new Label(
 		"Sometimes, it's not enough to remove what's in the way, you must think otherwise.");
 	instructions[1] = new Label(
-		"Sometimes, you must add something that is missing. Try to find the missing class in \"inactive\" and put it back in \"active\".");
+		"Sometimes, you must add something that is missing. Try to find the missing class in \"game/unused\" and put it back in \"game\".");
 	for (Label instruction : instructions) {
 	    instruction.prefWidthProperty().bind(root.widthProperty());
 	    instruction.setWrapText(true);
