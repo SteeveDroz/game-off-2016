@@ -351,6 +351,16 @@ function TileInfoPanel() {
 
 	var self = this;
 
+	this.upgradeButton.addEventListener("click", function() {
+		console.log(self.tile.level, self.tile.upgrades.length);
+
+		self.tile.upgrade();
+		self.applyProperties();
+
+		event.preventDefault();
+		event.stopPropagation();
+	}, false);
+
 	this.closeButton.addEventListener("click", function() {
 		self.hide();
 	}, false);
@@ -380,21 +390,7 @@ TileInfoPanel.prototype.show = function(tile) {
 	this.hidden = false;
 	this.tile = tile;
 
-	if(this.tile.level >= tile.upgrades.length) {
-		this.upgradeContainer.style.display = "none";
-	} else {
-		this.upgradeContainer.style.display = "block";
-		this.upgradeCost.innerHTML = this.tile.upgrades[this.tile.level - 1].cost + "$";
-
-		var self = this;
-
-		function upgrade() {
-			self.tile.upgrade();
-			self.applyProperties();
-		}
-
-		this.upgradeButton.addEventListener("click", upgrade, false);
-	}
+	console.log(this.tile.level, this.tile.upgrades.length);
 
 	this.applyProperties();
 };
@@ -501,13 +497,15 @@ Machine.prototype.upgrade = function() {
 		return false;
 	}
 
-	if(this.upgrades[this.level - 1].cost > money) {
+	var upgrade = this.upgrades[this.level - 1];
+
+	if(upgrade.cost > money) {
 		return false;
 	}
 
 	this.level++;
-	money -= this.upgrades[this.level - 1].cost;
-	this.upgrades[this.level - 1].apply(this);
+	money -= upgrade.cost;
+	upgrade.apply(this);
 };
 
 Machine.prototype.addUpgrade = function(cost, upgrade) {
@@ -568,7 +566,7 @@ function Server(map) {
 		machine.maxMemory += 20;
 	});
 
-	this.addUpgrade(500, function(machine) {
+	this.addUpgrade(400, function(machine) {
 		machine.maxDelay -= 20;
 		machine.maxCpu += 20;
 		machine.maxMemory += 20;
@@ -634,7 +632,7 @@ EthernetConnector.prototype.update = function() {
 	}
 
 	if(this.delay <= 0) {
-		var file = this.randomFile(); // TODO: handle wave
+		var file = this.randomFile();
 
 		if(this.connectors[Side.DOWN].connection) {
 			this.connectors[Side.DOWN].transferFile(file);
@@ -649,8 +647,6 @@ EthernetConnector.prototype.update = function() {
 };
 
 EthernetConnector.prototype.randomFile = function() {
-	console.log("new");
-
 	if(Math.random() < 0.2) {
 		return new File(FileType.VIRUS);
 	} else if(wave > 2 && Math.random() < 0.2) {
@@ -669,6 +665,25 @@ function Scanner(map) {
 	this.maxDelay = 30;
 
 	var self = this;
+
+	this.addUpgrade(150, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
+
+	this.addUpgrade(100, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
+
+	this.addUpgrade(150, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
+
 
 	this.addConnector(ConnectorType.OUT, Side.DOWN);
 
@@ -712,6 +727,24 @@ function LineConnector(map) {
 	this.maxDelay = 20;
 
 	var self = this;
+
+	this.addUpgrade(50, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
+
+	this.addUpgrade(70, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
+
+	this.addUpgrade(50, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
 
 	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
 		self.onRecive(file);
@@ -758,6 +791,25 @@ function Antivirus(map) {
 	this.type = TileType.ANTIVIRUS;
 	this.delay = 0;
 	this.maxDelay = 30;
+	this.stopSql = false;
+
+	this.addUpgrade(100, function(machine) {
+		machine.stopSql = true;
+		machine.maxCpu += 10;
+		machine.maxMemory += 10;
+	});
+
+	this.addUpgrade(50, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
+
+	this.addUpgrade(70, function(machine) {
+		machine.maxDelay -= 5;
+		machine.maxCpu += 20;
+		machine.maxMemory += 20;
+	});
 
 	var self = this;
 
@@ -768,10 +820,11 @@ function Antivirus(map) {
 	this.addConnector(ConnectorType.IN, Side.UP, function(file) {
 		if(file.known && file.type == FileType.VIRUS) {
 			self.connectors[Side.LEFT].transferFile(file);
-			return;
+		} else if(file.known && self.stopSql && file.type == FileType.SQL_SCRIPT) {
+			self.connectors[Side.LEFT].transferFile(file);
+		} else {
+			self.onRecive(file);
 		}
-
-		self.onRecive(file);
 	});
 }
 

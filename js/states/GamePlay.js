@@ -31,7 +31,7 @@ GamePlay.prototype.resize = function() {
 GamePlay.prototype.nextWave = function() {
 	wave++;
 
-	fileSpeed *= 1.5;
+	fileSpeed = wave * 1.25;
 
 	if(fileSpeed > 8) {
 		fileSpeed = 8;
