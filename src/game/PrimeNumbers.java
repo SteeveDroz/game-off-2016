@@ -15,12 +15,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class PrimeNumbers extends Scene {
-    private static final int MAX = 49;
+    private static final int MAX = 25;
     private FlowPane root;
     private Label response;
 
     public PrimeNumbers() throws InstantiationException, IllegalAccessException {
-	super(new FlowPane(), 245, 300);
+	super(new FlowPane(), 175, 250);
 	root = (FlowPane) getRoot();
 	initializeComponents();
     }

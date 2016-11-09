@@ -1,5 +1,6 @@
 package game;
 
+import core.com.github.steevedroz.powercycle.Main;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -9,13 +10,13 @@ import javafx.scene.text.Font;
 public class Tutorial extends Scene {
     private FlowPane root;
 
-    public Tutorial() {
+    public Tutorial() throws InstantiationException, IllegalAccessException {
 	super(new FlowPane(), 800, 600);
 	root = (FlowPane) getRoot();
 	initializeComponents();
     }
 
-    private void initializeComponents() {
+    private void initializeComponents() throws InstantiationException, IllegalAccessException {
 	Label title = new Label("Tutorial");
 	title.setFont(new Font(42));
 	root.getChildren().add(title);
@@ -23,7 +24,8 @@ public class Tutorial extends Scene {
 	Label[] rules = new Label[7];
 	rules[0] = new Label(
 		"If you see this message, it means that you want to play this GitHub Game Off 2016 game that has the theme \"Hacking, Modding and Augmenting\".");
-	rules[1]=new Label("The term \"Power Cycle\" means turn of and on again, which is a common computer problem solver. The main action to play this game is to close it, modify something and open it again.");
+	rules[1] = new Label(
+		"The term \"Power Cycle\" means turn of and on again, which is a common computer problem solver. The main action to play this game is to close it, modify something and open it again.");
 	rules[2] = new Label(
 		"The goal of Power Cycle is to display an OctoCat, wierd eight-legged marine feline that loves rubbing his tentacles against you.");
 	rules[3] = new Label("In order to do that, you must move files in a directory. Here is how it works:");
@@ -39,6 +41,16 @@ public class Tutorial extends Scene {
 	    rule.setPadding(new Insets(20, 5, 0, 5));
 	    rule.setFont(new Font(16));
 	    root.getChildren().add(rule);
+	}
+	try {
+	    Main.getObject("ThreePeople");
+	    Label wrongClass = new Label("I know what you wanted to do, but you are supposed to SOLVE the tutorial.");
+	    wrongClass.prefWidthProperty().bind(root.widthProperty());
+	    wrongClass.setWrapText(true);
+	    wrongClass.setPadding(new Insets(20, 5, 0, 5));
+	    wrongClass.setFont(new Font(16));
+	    root.getChildren().add(wrongClass);
+	} catch (ClassNotFoundException e) {
 	}
     }
 }
