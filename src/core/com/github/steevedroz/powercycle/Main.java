@@ -13,7 +13,7 @@ public class Main extends Application {
 
     private static final String[] ACTIVE_CLASSES = new String[] { "Tutorial", "AddAnotherClass" };
     private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass", "MyCrew", "Bus",
-	    "Driver", "SomePeople", "ThreePeople", "Everybody", "PrimeNumbers", "Higher" };
+	    "Driver", "SomePeople", "ThreePeople", "Everybody", "PrimeNumbers", "Higher", "Lower" };
 
     private static final String[] scenes = new String[] { "Tutorial", "AddAnotherClass", "Bus", "PrimeNumbers",
 	    "Higher" };
