@@ -1,6 +1,6 @@
 package game;
 
-import core.com.github.steevedroz.gameoff2016.Main;
+import core.com.github.steevedroz.powercycle.Main;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;

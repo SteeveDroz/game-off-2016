@@ -1,4 +1,4 @@
-package core.com.github.steevedroz.gameoff2016;
+package core.com.github.steevedroz.powercycle;
 
 import java.io.File;
 
@@ -15,7 +15,7 @@ public class Main extends Application {
 
     private static final String[] scenes = new String[] { "Welcome", "AddAnotherClass", "Bus" };
 
-    private static final String MAIN_DIRECTORY = "." + File.separator + "bin" + File.separator;
+    private static final String MAIN_DIRECTORY = "." + File.separator;
     private static final String INACTIVE_FOLDER = "game" + File.separator + "unused" + File.separator;
 
     public static final String ACTIVE_FOLDER = "game" + File.separator;
@@ -37,7 +37,7 @@ public class Main extends Application {
 		throw new ClassNotFoundException();
 	    }
 	    primaryStage.setScene(scene);
-	    primaryStage.setTitle("GitHub Game Off 2016 (WORKING TITLE)");
+	    primaryStage.setTitle("Power Cycle");
 	    primaryStage.show();
 	} catch (Exception e) {
 	    e.printStackTrace();
