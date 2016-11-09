@@ -34,13 +34,11 @@ public class AddAnotherClass extends Scene {
 	}
 
 	try {
-	    Class<?> missingClass = Main.getClass("MissingClass");
-	    Label missing = (Label) missingClass.newInstance();
+	    Label missing = (Label) Main.getObject("MissingClass");
 	    missing.prefWidthProperty().bind(root.widthProperty());
 	    root.getChildren().add(missing);
 
-	    Class<?> myCrewClass = Main.getClass("MyCrew");
-	    Label myCrew = (Label) myCrewClass.newInstance();
+	    Label myCrew = (Label) Main.getObject("MyCrew");
 	    myCrew.prefWidthProperty().bind(root.widthProperty());
 	    root.getChildren().add(myCrew);
 	} catch (ClassNotFoundException exception) {

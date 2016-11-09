@@ -26,8 +26,7 @@ public class Main extends Application {
 	    Scene scene = null;
 	    for (String sceneName : scenes) {
 		try {
-		    Class<?> sceneClass = getClass(sceneName);
-		    scene = (Scene) sceneClass.newInstance();
+		    scene = (Scene) getObject(sceneName);
 		    break;
 		} catch (ClassNotFoundException exception) {
 		    continue;
@@ -57,8 +56,9 @@ public class Main extends Application {
 	launch(args);
     }
 
-    public static Class<?> getClass(String className) throws ClassNotFoundException {
-	return Class.forName(ACTIVE_FOLDER.replace(File.separatorChar, '.') + className);
+    public static Object getObject(String className)
+	    throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	return Class.forName(ACTIVE_FOLDER.replace(File.separatorChar, '.') + className).newInstance();
     }
 
     private static void reinit() {

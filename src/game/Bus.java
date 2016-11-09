@@ -18,8 +18,7 @@ public class Bus extends Scene {
 
     private void initializeComponents() throws InstantiationException, IllegalAccessException {
 	try {
-	    Class<?> driverClass = Main.getClass("Driver");
-	    Pane driver = (Pane) driverClass.newInstance();
+	    Pane driver = (Pane) Main.getObject("Driver");
 	    root.getChildren().add(driver);
 	    putPeopleInTheBus();
 	} catch (ClassNotFoundException exception) {
@@ -35,22 +34,19 @@ public class Bus extends Scene {
 	boolean threePeople = false;
 	boolean everybody = false;
 	try {
-	    Class<?> somePeopleClass = Main.getClass("SomePeople");
-	    Pane somePeoplePane = (Pane) somePeopleClass.newInstance();
+	    Pane somePeoplePane = (Pane) Main.getObject("SomePeople");
 	    root.getChildren().add(somePeoplePane);
 	    somePeople = true;
 	} catch (ClassNotFoundException exception) {
 	}
 	try {
-	    Class<?> threePeopleClass = Main.getClass("ThreePeople");
-	    Pane threePeoplePane = (Pane) threePeopleClass.newInstance();
+	    Pane threePeoplePane = (Pane) Main.getObject("ThreePeople");
 	    root.getChildren().add(threePeoplePane);
 	    threePeople = true;
 	} catch (ClassNotFoundException exception) {
 	}
 	try {
-	    Class<?> everybodyClass = Main.getClass("Everybody");
-	    Pane everybodyPane = (Pane) everybodyClass.newInstance();
+	    Pane everybodyPane = (Pane) Main.getObject("Everybody");
 	    root.getChildren().add(everybodyPane);
 	    everybody = true;
 	} catch (ClassNotFoundException exception) {
