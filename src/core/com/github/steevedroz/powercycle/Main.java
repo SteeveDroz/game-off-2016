@@ -13,10 +13,10 @@ public class Main extends Application {
 
     private static final String[] ACTIVE_CLASSES = new String[] { "Tutorial", "AddAnotherClass" };
     private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass", "MyCrew", "Bus",
-	    "Driver", "SomePeople", "ThreePeople", "Everybody", "PrimeNumbers", "Higher", "Lower" };
+	    "Driver", "SomePeople", "ThreePeople", "Everybody", "PrimeNumbers", "Higher", "Lower", "Empty", "Nothing" };
 
     private static final String[] scenes = new String[] { "Tutorial", "AddAnotherClass", "Bus", "PrimeNumbers",
-	    "Higher" };
+	    "Higher", "Nothing" };
 
     private static final String MAIN_DIRECTORY = "." + File.separator;
     private static final String INACTIVE_FOLDER = "game" + File.separator + "unused" + File.separator;
