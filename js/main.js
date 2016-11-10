@@ -53,7 +53,7 @@ function setup() {
 	states["about"] = new About();
 	states["settings"] = new Settings();
 
-	audioManager.loadMusic("background", "assets/music/Sierra Nevada.mp3");
+	audioManager.loadMusic("background", "assets/music/background.mp3"); // Credits to http://soundimage.org/
 	audioManager.getMusic("background").play();
 
 	enterState("menu");
