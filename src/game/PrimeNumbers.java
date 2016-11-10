@@ -29,7 +29,7 @@ public class PrimeNumbers extends Scene {
 	try {
 	    Main.getObject("Driver");
 	} catch (ClassNotFoundException exception) {
-	    Label noSpy = new Label("Only the presence of a spy can trigger the codex	.");
+	    Label noSpy = new Label("Only the presence of a spy can trigger the codex.");
 	    noSpy.prefWidthProperty().bind(root.widthProperty());
 	    noSpy.setWrapText(true);
 	    noSpy.setFont(new Font(24));
