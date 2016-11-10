@@ -645,8 +645,6 @@ EthernetConnector.prototype.update = function() {
 		return;
 	}
 
-	console.log(this.totalFilesPerWave);
-
 	if(this.totalFilesPerWave >= 20 + 10 * wave) {
 		filesStoped = true;
 

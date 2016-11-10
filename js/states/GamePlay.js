@@ -53,11 +53,9 @@ GamePlay.prototype.nextWave = function() {
 
 	setInterval(function() {
 		if(filesStoped) {
-			setTimeout(function() {
-				gameStarted = false;
-				filesStoped = false;
-				self.countdown = 10;
-			}, 5000);
+			gameStarted = false;
+			filesStoped = false;
+			self.countdown = 10;
 		}
 	}, 1000);
 
