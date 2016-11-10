@@ -51,12 +51,15 @@
                                 </span>
                             </div>
                             <div id='upgrade'>
-                                <button id='upgradeTile' class='nospace'>Upgrade</button>
+                                <button id='upgradeTile'>Upgrade</button>
                                 <span id='upgradeCost' class='right'>0$</span>
+                                <button id='deleteTile' class='nospace'>Delete</button>
                             </div>
                         </div>
                     </div>
-
+                    <div id='nextWave'>
+                        Wave <span id='nextWaveNumber'>1</span>
+                    </div>
                     <div id='right-panel'>
                         <span class='gray bold' data-intro='There you can buy some more stuff'>Shop</span><span id='money' class='right'>0$</span>
                         <br/>
@@ -69,9 +72,10 @@
                         <br/>
                         Wave <span id='wave'>1</span>
                         <br/>
+                        <div id='nextWaveCountdown' class='white'>
+                            Next wave in: <span id='nextWaveTime' class='white'></span>
+                        </div>
                         <br/>
-
-                        <button id='start' onclick='startOrPauseGame()'>Start</button>
                         <button onclick='window.location.reload()'><span>Back to the menu</span></button>
                     </div>
 				</div>

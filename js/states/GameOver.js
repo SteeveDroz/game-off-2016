@@ -9,6 +9,8 @@ function GameOver() {
 GameOver.prototype.enter = function() {
 	this.gui.style.display = "block";
 
+	console.log("score: " + Math.max(filesPassed - filesLost, 0));
+
 	this.scoreLabel.innerHTML = Math.max(filesPassed - filesLost, 0);
 
 	var s = (map.servers.length > 1) ? "s" : "";

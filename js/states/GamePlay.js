@@ -3,20 +3,30 @@ function GamePlay() {
 	this.gui = document.getElementById("gamePlay");
 	this.moneyLabel = document.getElementById("money");
 	this.waveLabel = document.getElementById("wave");
+	this.nextWaveLabel = document.getElementById("nextWave");
+	this.nextWaveNumberLabel = document.getElementById("nextWaveNumber");
+	this.countdownLabel = document.getElementById("nextWaveCountdown");
+	this.countdownLabelNumber = document.getElementById("nextWaveTime");
 
 	this.leave();
 
-	wave = 0;
-
-	this.nextWave();
-
 	var self = this;
+	gamePaused = false;
+	this.countdown = 10;
 
 	setInterval(function() {
-		if(gameStarted) {
-			self.nextWave();
+		if(!gameStarted) {
+			self.countdown--;
+			self.countdownLabel.style.display = "block";
+			self.countdownLabelNumber.innerHTML = self.countdown;
+
+			if(self.countdown == 0) {
+				self.countdownLabel.style.display = "none";
+
+				self.nextWave();
+			}
 		}
-	}, 60000);
+	}, 1000);
 
 	window.addEventListener("resize", function(event) {
 		self.resize();
@@ -31,7 +41,27 @@ GamePlay.prototype.resize = function() {
 GamePlay.prototype.nextWave = function() {
 	wave++;
 
-	fileSpeed = wave * 1.25;
+	this.nextWaveLabel.style.opacity = 1;
+	this.nextWaveNumberLabel.innerHTML = wave;
+
+	var self = this;
+	gameStarted = true;
+
+	setTimeout(function() {
+		self.nextWaveLabel.style.opacity = 0;
+	}, 3000);
+
+	setInterval(function() {
+		if(filesStoped) {
+			setTimeout(function() {
+				gameStarted = false;
+				filesStoped = false;
+				self.countdown = 10;
+			}, 5000);
+		}
+	}, 1000);
+
+	fileSpeed *= 1.25;
 
 	if(fileSpeed > 8) {
 		fileSpeed = 8;
@@ -49,6 +79,8 @@ GamePlay.prototype.enter = function() {
 
 	stage.addChild(this.scene);
 
+	wave = 0;
+
 	gameOver = false;
 	filesLost = 0;
 	filesPassed = 0;
@@ -63,10 +95,6 @@ GamePlay.prototype.enter = function() {
 
 GamePlay.prototype.leave = function() {
 	stage.removeChild(this.scene);
-
-	if(gameStarted) {
-		startOrPauseGame();
-	}
 
 	this.gui.style.display = "none";
 };

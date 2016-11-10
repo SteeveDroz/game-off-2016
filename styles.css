@@ -115,10 +115,18 @@
     margin-right: 5px;
 }
 
+#upgrade {
+    margin-top: 5px;
+}
+
 #upgradeTile {
     height: 30px;
     width: 70px;
-    margin-top: 5px;
+}
+
+#deleteTile {
+    height: 30px;
+    width: 70px;
 }
 
 #upgradeCost {
@@ -129,6 +137,22 @@
     width: 70px;
     float: right;
     margin-top: 5px;
+}
+
+#nextWave {
+    opacity: 0;
+    font-weight: bold;
+    font-size: 30px;
+    position: fixed;
+    left: 50%;
+    margin-left: -180px;
+    top: 200px;
+    color: white;
+    -webkit-transition: opacity 0.5s ease-in;
+    -moz-transition: opacity 0.5s ease-in;
+    -ms-transition: opacity 0.5s ease-in;
+    -o-transition: opacity 0.5s ease-in;
+    pointer-events: none;
 }
 
 #gameOver {

@@ -39,6 +39,7 @@ var connectors = [];
 var connections = [];
 
 var firstTime = false;
+var filesStoped = false;
 var wave = 1;
 
 var tileInfoPanel;
@@ -79,11 +80,4 @@ function extend(base, sub) {
 	emptyConstructor.prototype = base.prototype;
 	sub.prototype = new emptyConstructor();
 	sub.prototype.constructor = sub;
-}
-
-function startOrPauseGame() {
-	gameStarted = !gameStarted;
-
-	var button = document.getElementById("start");
-	button.innerHTML = (gameStarted) ? "Pause" : "Start";
 }

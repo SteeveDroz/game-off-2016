@@ -25,6 +25,7 @@ function onDocumentReady() {
 		"assets/images/tile12.png").add(
 		"assets/images/tile12second.png").add(
 		"assets/images/tile12third.png").add(
+		"assets/images/tile13.png").add(
 		"assets/images/connector0.png").add(
 		"assets/images/connector1.png").add(
 		"assets/images/file0.png").add(
