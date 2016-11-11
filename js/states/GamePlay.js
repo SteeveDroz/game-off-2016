@@ -7,6 +7,7 @@ function GamePlay() {
 	this.nextWaveNumberLabel = document.getElementById("nextWaveNumber");
 	this.countdownLabel = document.getElementById("nextWaveCountdown");
 	this.countdownLabelNumber = document.getElementById("nextWaveTime");
+	this.serverQuality = document.getElementById("serverQuality");
 
 	this.leave();
 
@@ -103,6 +104,18 @@ GamePlay.prototype.update = function() {
 
 	this.moneyLabel.innerHTML = money + "$";
 	this.waveLabel.innerHTML = wave;
+
+	var quality = filesPassed / filesLost;
+
+	if(!isFinite(quality)) {
+		if(filesLost == 0) {
+			quality = 1;
+		} else {
+			quality = 0;
+		}
+	}
+
+	this.serverQuality.value = quality;
 
 	if(gameOver) {
 		enterState("gameOver");

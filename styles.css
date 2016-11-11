@@ -170,6 +170,11 @@
     padding: 10px;
 }
 
+#serverQuality {
+    margin-top: 5px;
+    float: right;
+}
+
 #settings {
 
 }
