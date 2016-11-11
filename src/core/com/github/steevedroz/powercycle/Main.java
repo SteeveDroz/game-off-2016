@@ -1,6 +1,14 @@
 package core.com.github.steevedroz.powercycle;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,6 +27,7 @@ public class Main extends Application {
 	    "Higher", "Nothing" };
 
     private static final String MAIN_DIRECTORY = "." + File.separator;
+    private static final String BACKUP_DIRECTORY = "core" + File.separator + "backup" + File.separator;
     private static final String INACTIVE_FOLDER = "game" + File.separator + "unused" + File.separator;
 
     public static final String ACTIVE_FOLDER = "game" + File.separator;
@@ -54,8 +63,13 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-	if (args.length > 0 && args[0].equals("reinit")) {
-	    Main.reinit();
+	if (args.length > 0) {
+	    if (args[0].equals("reinit")) {
+		Main.reinit();
+	    } else if (args[0].equals("backup")) {
+		Main.backup();
+		System.exit(0);
+	    }
 	}
 	launch(args);
     }
@@ -76,7 +90,23 @@ public class Main extends Application {
 	for (String inactiveClass : INACTIVE_CLASSES) {
 	    deactivate(inactiveClass);
 	}
+    }
 
+    private static void backup() {
+        File active = new File(MAIN_DIRECTORY + ACTIVE_FOLDER);
+    
+        String backupActive = BACKUP_DIRECTORY + ACTIVE_FOLDER;
+        String backupInactive = BACKUP_DIRECTORY + INACTIVE_FOLDER;
+    
+        File[] filesInActive = active.listFiles();
+        for (File file : filesInActive) {
+            try {
+        	tryToMove(file, ACTIVE_CLASSES, backupActive);
+        	tryToMove(file, INACTIVE_CLASSES, backupInactive);
+            } catch (FinishedMovingException exception) {
+        	continue;
+            }
+        }
     }
 
     private static void activate(String name) {
