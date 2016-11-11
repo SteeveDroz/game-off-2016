@@ -102,7 +102,7 @@ function applyCookies() {
 	document.getElementById("music").checked = (Cookies.get("music") == "false") ? false: true;
 	document.getElementById("sounds").checked = (Cookies.get("sounds") == "false") ? false : true;
 
-	var moneyValue = Cookies.get("money");
+	/* var moneyValue = Cookies.get("money");
 
 	if(moneyValue) {
 		money = parseInt(moneyValue);
@@ -110,7 +110,9 @@ function applyCookies() {
 		money = 500;
 
 		firstTime = true;
-	}
+	}*/
+	
+	money = 500; // Thanks to @SteeveDroz, issue #1
 
 	updateMusicLevel();
 	updateSoundsLevel();
