@@ -3,6 +3,10 @@
 Protect your server from hackers, viruses and other dangerous stuff!
 You can play it at https://egordorichev.github.io/Server-Defense/
 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=-ZfFnON72J4
+" target="_blank"><img src="http://img.youtube.com/vi/-ZfFnON72J4/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
 ### Install
 
 Download project, unzip it and put it contents in your server's root. You are ready to play!
