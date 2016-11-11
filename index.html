@@ -44,17 +44,17 @@
                             <div id='tileName' class='blue'></div>
                             <div id='tileSpec'>
                                 <span class='gray'>
-                                    CPU: <meter id='cpuUsage' value='0' min='0' low='0' high='70' max='100'/>
+                                    CPU: <meter id='cpuUsage' value='0' min='0' low='0' high='50' max='100'/>
                                 </span>
                                 <span class='gray'>
-                                    MEM: <meter id='memoryUsage' value='0' min='0' low='0' high='70' max='100'/>
+                                    MEM: <meter id='memoryUsage' value='0' min='0' low='0' high='50' max='100'/>
                                 </span>
                             </div>
                             <div id='upgrade'>
                                 <button id='upgradeTile'>Upgrade</button>
                                 <span id='upgradeCost' class='right'>0$</span>
                             </div>
-			    <button id='deleteTile' class='nospace'>Delete</button>	
+			        <button id='deleteTile' class='nospace'>Delete</button>
                         </div>
                     </div>
                     <div id='nextWave'>
@@ -74,6 +74,10 @@
                         <br/>
                         <div id='nextWaveCountdown' class='white'>
                             Next wave in: <span id='nextWaveTime' class='white'>10</span>
+                        </div>
+                        <br>
+                        <div>
+                            Server quality: <meter id='serverQuality' value='0' min='0' low='0' high='50' max='100'/>
                         </div>
                         <br/>
                         <button onclick='window.location.reload()'><span>Back to the menu</span></button>

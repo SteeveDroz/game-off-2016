@@ -106,7 +106,7 @@ Shop.prototype.setupItems = function() {
 	this.addItem(new ShopItem(11, "TripleHandSwitch", "Triple hand switch", 60));
 	this.addItem(new ShopItem(10, "DoubleAutoSwitch", "Double auto-switch", 60));
 	this.addItem(new ShopItem(12, "TripleAutoSwitch", "Triple auto-switch", 90));
-	this.addItem(new ShopItem(2, "Server", "Server", 5000));
+	this.addItem(new ShopItem(2, "Server", "Server", 250));
 };
 
 Shop.prototype.addItem = function(item) {

@@ -216,10 +216,10 @@ function Connection(firstConnector, secondConnector) {
 					return;
 				}
 
-				if(con.type === self.firstConnector.type) {
-				 	self.delete(con);
-					return;
-				}
+				// if(con.type === self.firstConnector.type) { FIXME: doesnt work
+				//  	self.delete(con);
+				// 	return;
+				// }
 
 				if(con.tile != self.firstConnector.tile) {
 					if(con.connection) {
@@ -396,8 +396,6 @@ TileInfoPanel.prototype.show = function(tile) {
 	this.hidden = false;
 	this.tile = tile;
 
-	console.log(this.tile.level, this.tile.upgrades.length);
-
 	this.applyProperties();
 };
 
@@ -412,10 +410,11 @@ TileInfoPanel.prototype.applyProperties = function() {
 	this.tileName.innerHTML = toTitleCase(this.tile.name) + " lv. " + this.tile.level;
 	this.cpuUsage.value = this.tile.cpu;
 	this.cpuUsage.max = this.tile.maxCpu;
-	this.cpuUsage.high = this.tile.maxCpu / 5 * 4;
+	this.cpuUsage.high = this.tile.maxCpu / 2;
+
 	this.memoryUsage.value = this.tile.memory;
 	this.memoryUsage.max = this.tile.maxMemory;
-	this.cpuUsage.high = this.tile.maxMemory / 5 * 4;
+	this.memoryUsage.high = this.tile.maxMemory / 2;
 
 	this.wrapper.style.display = "block";
 	this.wrapper.style.left = this.tile.sprite.x - 75 + 27 + mapScene.x + "px";
@@ -536,11 +535,11 @@ Machine.prototype.update = function() {
 
 Machine.prototype.onRecive = function(file) {
 	this.files.push(file);
-	this.cpu += file.size * 5;
+	this.cpu += file.size * 3;
 };
 
 Machine.prototype.onEnd = function(file) {
-	this.cpu -= file.size * 5;
+	this.cpu -= file.size * 3;
 
 	file.hide();
 
@@ -564,19 +563,19 @@ function Server(map) {
 
 	this.addUpgrade(200, function(machine) {
 		machine.maxDelay -= 20;
-		machine.maxCpu += 20;
+		machine.maxCpu += 50;
 		machine.maxMemory += 20;
 	});
 
 	this.addUpgrade(150, function(machine) {
 		machine.maxDelay -= 20;
-		machine.maxCpu += 20;
+		machine.maxCpu += 50;
 		machine.maxMemory += 20;
 	});
 
-	this.addUpgrade(400, function(machine) {
+	this.addUpgrade(200, function(machine) {
 		machine.maxDelay -= 20;
-		machine.maxCpu += 20;
+		machine.maxCpu += 50;
 		machine.maxMemory += 20;
 	});
 
