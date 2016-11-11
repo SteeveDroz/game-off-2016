@@ -562,13 +562,13 @@ function Server(map) {
 
 	var self = this;
 
-	this.addUpgrade(500, function(machine) {
+	this.addUpgrade(200, function(machine) {
 		machine.maxDelay -= 20;
 		machine.maxCpu += 20;
 		machine.maxMemory += 20;
 	});
 
-	this.addUpgrade(300, function(machine) {
+	this.addUpgrade(150, function(machine) {
 		machine.maxDelay -= 20;
 		machine.maxCpu += 20;
 		machine.maxMemory += 20;
