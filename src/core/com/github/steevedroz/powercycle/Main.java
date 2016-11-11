@@ -24,7 +24,7 @@ public class Main extends Application {
     private static final String[] INACTIVE_CLASSES = new String[] { "NeverUsed", "MissingClass", "MyCrew", "Bus",
 	    "Driver", "SomePeople", "ThreePeople", "Everybody", "PrimeNumbers", "Higher", "Lower", "Empty", "Nothing" };
 
-    private static final String[] scenes = new String[] { "Tutorial", "AddAnotherClass", "Bus", "PrimeNumbers",
+    private static final String[] SCENES = new String[] { "Tutorial", "AddAnotherClass", "Bus", "PrimeNumbers",
 	    "Higher", "Nothing" };
 
     private static final String MAIN_DIRECTORY = "." + File.separator;
@@ -39,7 +39,7 @@ public class Main extends Application {
 	    Main.STAGE = primaryStage;
 	    primaryStage.setTitle("Power Cycle " + VERSION);
 	    Scene scene = null;
-	    for (String sceneName : scenes) {
+	    for (String sceneName : SCENES) {
 		try {
 		    scene = (Scene) getObject(sceneName);
 		    break;
