@@ -17,6 +17,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    private static final String VERSION = "v1.0.0-beta";
     private static Stage STAGE;
 
     private static final String[] ACTIVE_CLASSES = new String[] { "Tutorial", "AddAnotherClass" };
@@ -36,7 +37,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 	try {
 	    Main.STAGE = primaryStage;
-	    primaryStage.setTitle("Power Cycle");
+	    primaryStage.setTitle("Power Cycle " + VERSION);
 	    Scene scene = null;
 	    for (String sceneName : scenes) {
 		try {
@@ -98,29 +99,29 @@ public class Main extends Application {
     }
 
     private static void backup() {
-        File active = new File(MAIN_DIRECTORY + ACTIVE_FOLDER);
-    
-        String backupActive = BACKUP_DIRECTORY + ACTIVE_FOLDER;
-        String backupInactive = BACKUP_DIRECTORY + INACTIVE_FOLDER;
-    
-        File[] filesInActive = active.listFiles();
-        for (File file : filesInActive) {
-            try {
-        	tryToMove(file, ACTIVE_CLASSES, backupActive);
-        	tryToMove(file, INACTIVE_CLASSES, backupInactive);
-            } catch (FinishedMovingException exception) {
-        	continue;
-            }
-        }
+	File active = new File(MAIN_DIRECTORY + ACTIVE_FOLDER);
+
+	String backupActive = BACKUP_DIRECTORY + ACTIVE_FOLDER;
+	String backupInactive = BACKUP_DIRECTORY + INACTIVE_FOLDER;
+
+	File[] filesInActive = active.listFiles();
+	for (File file : filesInActive) {
+	    try {
+		tryToMove(file, ACTIVE_CLASSES, backupActive);
+		tryToMove(file, INACTIVE_CLASSES, backupInactive);
+	    } catch (FinishedMovingException exception) {
+		continue;
+	    }
+	}
     }
 
     private static void tryToMove(File file, String[] classList, String destination) throws FinishedMovingException {
-        for (String className : classList) {
-            if (file.getName().equals(className + ".class")) {
-        	file.renameTo(new File(destination + file.getName()));
-        	throw new FinishedMovingException();
-            }
-        }
+	for (String className : classList) {
+	    if (file.getName().equals(className + ".class")) {
+		file.renameTo(new File(destination + file.getName()));
+		throw new FinishedMovingException();
+	    }
+	}
     }
 
     private static void copy(Path from, Path to) throws IOException {
