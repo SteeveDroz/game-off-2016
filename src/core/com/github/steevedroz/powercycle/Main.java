@@ -91,6 +91,8 @@ public class Main extends Application {
 	Path active = Paths.get(MAIN_DIRECTORY, ACTIVE_FOLDER);
 	Path inactive = Paths.get(MAIN_DIRECTORY, INACTIVE_FOLDER);
 	try {
+	    empty(active);
+	    empty(inactive);
 	    copy(backupActive, active);
 	    copy(backupInactive, inactive);
 	} catch (IOException e) {
@@ -122,6 +124,16 @@ public class Main extends Application {
 		throw new FinishedMovingException();
 	    }
 	}
+    }
+
+    private static void empty(Path directory) throws IOException {
+	Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+	    @Override
+	    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+		Files.delete(file);
+		return FileVisitResult.CONTINUE;
+	    }
+	});
     }
 
     private static void copy(Path from, Path to) throws IOException {
