@@ -412,8 +412,10 @@ TileInfoPanel.prototype.applyProperties = function() {
 	this.tileName.innerHTML = toTitleCase(this.tile.name) + " lv. " + this.tile.level;
 	this.cpuUsage.value = this.tile.cpu;
 	this.cpuUsage.max = this.tile.maxCpu;
+	this.cpuUsage.high = this.tile.maxCpu / 5 * 4;
 	this.memoryUsage.value = this.tile.memory;
 	this.memoryUsage.max = this.tile.maxMemory;
+	this.cpuUsage.high = this.tile.maxMemory / 5 * 4;
 
 	this.wrapper.style.display = "block";
 	this.wrapper.style.left = this.tile.sprite.x - 75 + 27 + mapScene.x + "px";

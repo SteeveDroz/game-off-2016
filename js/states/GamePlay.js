@@ -11,7 +11,7 @@ function GamePlay() {
 	this.leave();
 
 	var self = this;
-	gamePaused = false;
+	gameStarted = true;
 	this.countdown = 10;
 
 	setInterval(function() {
@@ -80,6 +80,7 @@ GamePlay.prototype.enter = function() {
 	wave = 0;
 
 	gameOver = false;
+	gameStarted = false;
 	filesLost = 0;
 	filesPassed = 0;
 
