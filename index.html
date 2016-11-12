@@ -4,17 +4,17 @@
         <title>Server Defense</title>
 		<link rel='stylesheet' type='text/css' href='elements.css'></link>
 		<link rel='stylesheet' type='text/css' href='styles.css'></link>
-        <link rel='icon' href='favicon.ico' type='image/icon'/>
-        <script src='js/pixi.min.js'></script>
+        	<link rel='icon' href='favicon.ico' type='image/icon'/>
+        	<script src='js/pixi.min.js'></script>
 		<script src='js/config.js'></script>
-        <script src='js/AudioManager.js'></script>
+        	<script src='js/AudioManager.js'></script>
 		<script src='js/js.cookie.js'></script>
-        <script src='js/Map.js'></script>
-        <script src='js/Shop.js'></script>
+       	 	<script src='js/Map.js'></script>
+       		<script src='js/Shop.js'></script>
 		<script src='js/states/Menu.js'></script>
 		<script src='js/states/GamePlay.js'></script>
-        <script src='js/states/GameOver.js'></script>
-        <script src='js/states/Win.js'></script>
+        	<script src='js/states/GameOver.js'></script>
+        	<script src='js/states/Win.js'></script>
 		<script src='js/states/Settings.js'></script>
 		<script src='js/states/About.js'></script>
 		<script src='js/howler.core.js'></script>
@@ -25,36 +25,36 @@
 			<div id='gameCanvas'></div>
 			<div id='gui'>
 				<div id='menu'>
-                    <img id='logo' src='assets/images/logo.png'/>
+                    			<img id='logo' src='assets/images/logo.png'/>
 					<button onclick='enterState("gamePlay")'><span>Play</span></button>
 					<button onclick='enterState("settings")'><span>Settings</span></button>
-                    <form action='https://github.com/egordorichev/Server-Defense?#how-to-play'>
-                        <button><span>How to play</span></button>
-                    </form>
+                    			<form action='https://github.com/egordorichev/Server-Defense?#how-to-play'>
+                       				<button><span>How to play</span></button>
+                    			</form>
 
 					<form action='https://github.com/egordorichev/Server-Defense'>
 						<button class='nospace'><span>Fork on GitHub</span></button>
 					</form>
 				</div>
 				<div id='gamePlay'>
-                    <div id='tileInfoWrapper'>
-                        <div id='tileInfo'>
-                            <span id='tileInfoClose' class='right'>X</span>
-                            <div id='tileName' class='blue'></div>
-                            <div id='tileSpec'>
-                                <span class='gray'>
-                                    CPU: <meter id='cpuUsage' value='0' min='0' low='0' high='50' max='100'/>
-                                </span>
-                                <span class='gray'>
-                                    MEM: <meter id='memoryUsage' value='0' min='0' low='0' high='50' max='100'/>
-                                </span>
-                            </div>
-                            <div id='upgrade'>
-                                <button id='upgradeTile'>Upgrade</button>
-                                <span id='upgradeCost' class='right'>0$</span>
-                            </div>
+                   		<div id='tileInfoWrapper'>
+                        		<div id='tileInfo'>
+                           			<span id='tileInfoClose' class='right'>X</span>
+						<div id='tileName' class='blue'></div>
+						<div id='tileSpec'>
+						<span class='gray'>
+						    CPU: <meter id='cpuUsage' value='0' min='0' low='0' high='50' max='100'/>
+						</span>
+						<span class='gray'>
+						    MEM: <meter id='memoryUsage' value='0' min='0' low='0' high='50' max='100'/>
+						</span>
+					</div>
+                            	<div id='upgrade'>
+					<button id='upgradeTile'>Upgrade</button>
+					<span id='upgradeCost' class='right'>0$</span>
+                            	</div>
 			        <button id='deleteTile' class='nospace'>Delete</button>
-                        </div>
+                       	</div>
                     </div>
                     <div id='nextWave'>
                         Wave <span id='nextWaveNumber'>1</span>
