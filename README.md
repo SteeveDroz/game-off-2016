@@ -1,6 +1,6 @@
 # Server defense
 
-Protect your server from hackers, viruses and other dangerous stuff!
+It's a tower-defese game, wheer you need to protect your servers from hackers, viruses and other dangerous stuff!
 You can play it at https://egordorichev.github.io/Server-Defense/
 
 Trailer: 
