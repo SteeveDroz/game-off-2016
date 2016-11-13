@@ -37,6 +37,10 @@ function onDocumentReady() {
 	window.onbeforeunload = function () {
 		saveCookies();
 	};
+
+	document.getElementById("music").addEventListener("click", function(event) {
+		achievementManager.unlock("stupidMusic");
+	}, false);
 }
 
 

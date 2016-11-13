@@ -9,6 +9,8 @@ Achievement.prototype.unlock = function() {
 		return;
 	}
 
+	this.locked = false;
+
 	var achievementWrapper = document.getElementById("achievement");
 	var achievementName = document.getElementById("achievementName");
 
@@ -35,6 +37,20 @@ function AchievementManager() {
 
 	this.achievements["morePower"] = {
 		achievement : new Achievement("Need more power!", "Obtain new server", morePower)
+	};
+
+	var cleanFreak  = (Cookies.get("cleanFreak") == "true") ? false : true;
+
+	this.achievements["cleanFreak"] = {
+		achievement : new Achievement("Clean freak!", "Obtain a trash", cleanFreak)
+	};
+
+	var stupidMusic = (Cookies.get("stupidMusic") == "true") ? false : true;
+
+	console.log(stupidMusic);
+
+	this.achievements["stupidMusic"] = {
+		achievement : new Achievement("Stupid music!", "Turn the music off", stupidMusic)
 	};
 }
 

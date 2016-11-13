@@ -66,8 +66,9 @@ function ShopItem(id, className, itemName, cost) {
 		}
 
 		if(self.className == "Server") {
-			console.log("server");
 			achievementManager.unlock("morePower");
+		} else if(self.className == "Trash") {
+			achievementManager.unlock("cleanFreak");
 		}
 
 		return false;
