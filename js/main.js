@@ -123,7 +123,7 @@ function applyCookies() {
 function saveCookies() {
 	Cookies.set("money", String(money));
 
-	// achievementManager.save();
+	achievementManager.save();
 }
 
 function updateCookie(cookie) {
