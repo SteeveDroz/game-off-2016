@@ -42,6 +42,7 @@ function onDocumentReady() {
 
 function setup() {
 	audioManager = new AudioManager();
+	achievementManager = new AchievementManager();
 	textures = TextureCache;
 
 	// States setup
@@ -121,6 +122,8 @@ function applyCookies() {
 
 function saveCookies() {
 	Cookies.set("money", String(money));
+
+	// achievementManager.save();
 }
 
 function updateCookie(cookie) {

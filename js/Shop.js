@@ -65,6 +65,11 @@ function ShopItem(id, className, itemName, cost) {
 			}
 		}
 
+		if(self.className == "Server") {
+			console.log("server");
+			achievementManager.unlock("morePower");
+		}
+
 		return false;
 	}, false);
 

@@ -216,10 +216,10 @@ function Connection(firstConnector, secondConnector) {
 					return;
 				}
 
-				// if(con.type === self.firstConnector.type) { FIXME: doesnt work
-				//  	self.delete(con);
-				// 	return;
-				// }
+				if(con.type == self.firstConnector.type) {
+				  	self.delete(con);
+				 	return;
+				}
 
 				if(con.tile != self.firstConnector.tile) {
 					if(con.connection) {
@@ -268,13 +268,15 @@ Connection.prototype.delete = function(secondConnctor) {
 	}
 
 	if(this.firstConnector != null) {
-		delete this.firstConnector.connection;
+		this.firstConnector.connection = null;
 	}
 
-	var second = secondConnctor || this.secondConnector;
+	if(this.secondConnector != null) {
+		this.secondConnector.connection = null;
+	}
 
-	if(second != null) {
-		delete second.connection;
+	if(secondConnctor != null) {
+		secondConnctor.connection = null;
 	}
 };
 
@@ -367,6 +369,7 @@ function TileInfoPanel() {
 	}, false);
 
 	this.deleteButton.addEventListener("click", function() {
+		this.tile.deleteConnection();
 		map.setTileById(0, self.tile.x, self.tile.y);
 		self.hide();
 	}, false);

@@ -9,6 +9,7 @@
         <script src='js/pixi.min.js'></script>
 		<script src='js/config.js'></script>
         <script src='js/AudioManager.js'></script>
+        <script src='js/Achievement.js'></script>
 		<script src='js/js.cookie.js'></script>
         <script src='js/Map.js'></script>
         <script src='js/Shop.js'></script>
@@ -25,6 +26,9 @@
 		<div id='container'>
 			<div id='gameCanvas'></div>
 			<div id='gui'>
+                <div id='achievement' class='white'>
+                    <div id='achievementName' class='white'></div>
+                </div>
 				<div id='menu'>
                     <img id='logo' src='assets/images/logo.png'/>
 					<button onclick='enterState("gamePlay")'><span>Play</span></button>
@@ -38,7 +42,7 @@
 					</form>
 				</div>
 				<div id='gamePlay'>
-                    <div id='tileInfoWrapper'>
+                   <div id='tileInfoWrapper'>
                         <div id='tileInfo'>
                             <span id='tileInfoClose' class='right'>X</span>
                             <div id='tileName' class='blue'></div>

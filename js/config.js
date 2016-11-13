@@ -23,6 +23,7 @@ var textures;
 var background;
 
 var audioManager;
+var achievementManager;
 var gameOver = false;
 var gameStarted = false;
 var wireColor = 0x000000;
@@ -30,6 +31,7 @@ var wireColor = 0x000000;
 var map;
 var shop;
 var money;
+var moneyRecived = true;
 
 var filesLost = 0;
 var filesPassed = 0;

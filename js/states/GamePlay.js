@@ -17,6 +17,12 @@ function GamePlay() {
 
 	setInterval(function() {
 		if(!gameStarted) {
+			if(!moneyRecived) {
+				money += 500;
+
+				moneyRecived = true;
+			}
+
 			self.countdown--;
 			self.countdownLabel.style.display = "block";
 			self.countdownLabelNumber.innerHTML = self.countdown;
@@ -47,6 +53,7 @@ GamePlay.prototype.nextWave = function() {
 
 	var self = this;
 	gameStarted = true;
+	moneyRecived = false;
 
 	setTimeout(function() {
 		self.nextWaveLabel.style.opacity = 0;
