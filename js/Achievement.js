@@ -39,7 +39,7 @@ function AchievementManager() {
 	var morePower = (Cookies.get("morePower") == "true") ? false : true;
 
 	this.achievements["morePower"] = {
-		achievement : new Achievement("Need more power!", "Obtain new server", morePower)
+		achievement : new Achievement("Need more power!", "Obtain a new server", morePower)
 	};
 
 	var cleanFreak  = (Cookies.get("cleanFreak") == "true") ? false : true;
