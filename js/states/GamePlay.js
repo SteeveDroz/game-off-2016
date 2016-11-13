@@ -124,6 +124,10 @@ GamePlay.prototype.update = function() {
 
 	this.serverQuality.value = quality;
 
+	if(filesPassed > 200) {
+		achievementManager.unlock("titan");
+	}
+
 	if(gameOver) {
 		enterState("gameOver");
 	}

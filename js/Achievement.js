@@ -19,6 +19,8 @@ Achievement.prototype.unlock = function() {
 
 	var self = this;
 
+	achievementManager.draw();
+
 	setTimeout(function() {
 		achievementWrapper.style.opacity = 0;
 	}, 5000);
@@ -26,6 +28,7 @@ Achievement.prototype.unlock = function() {
 
 function AchievementManager() {
 	this.achievements = [];
+	this.wrapper = document.getElementById("achievements");
 
 	var firstTime = (Cookies.get("firstTime") == "true") ? false : true;
 
@@ -47,11 +50,19 @@ function AchievementManager() {
 
 	var stupidMusic = (Cookies.get("stupidMusic") == "true") ? false : true;
 
-	console.log(stupidMusic);
-
 	this.achievements["stupidMusic"] = {
 		achievement : new Achievement("Stupid music!", "Turn the music off", stupidMusic)
 	};
+
+	var titan = (Cookies.get("titan") == "true") ? false : true;
+
+	this.achievements["titan"] = {
+		achievement : new Achievement("Titan!", "Recive 200 files", titan)
+	};
+
+	// Money >= 1000
+
+	this.draw();
 }
 
 AchievementManager.prototype.unlock = function(name) {
@@ -61,5 +72,34 @@ AchievementManager.prototype.unlock = function(name) {
 AchievementManager.prototype.save = function() {
 	for(var ac in this.achievements) {
 		Cookies.set(ac, String(this.achievements[ac].achievement.locked));
+	}
+};
+
+AchievementManager.prototype.draw = function() {
+	this.wrapper.innerHTML = "";
+
+	for(var ac in this.achievements) {
+		var inner = document.createElement("div");
+		inner.setAttribute("id", "achievementsItem");
+
+		if(!this.achievements[ac].achievement.locked) {
+			var unlocked = document.createElement("span");
+			unlocked.className = "unlocked";
+			unlocked.innerHTML = "Unlocked"
+			inner.appendChild(unlocked);
+		}
+
+		var name = document.createElement("div");
+		name.innerHTML = this.achievements[ac].achievement.name;
+		name.className = "white";
+
+		var description = document.createElement("div");
+		description.innerHTML = this.achievements[ac].achievement.description;
+		description.className = "white";
+
+		inner.appendChild(name);
+		inner.appendChild(description);
+
+		this.wrapper.appendChild(inner);
 	}
 };

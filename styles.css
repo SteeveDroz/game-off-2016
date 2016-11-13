@@ -30,10 +30,12 @@
     opacity: 0.9;
     border-radius: 2px;
     padding: 10px;
+    overflow: hidden;
 }
 
-#menu {
-
+#settings {
+    height: 400px;
+    margin-top: -400px;
 }
 
 #logo {
@@ -70,6 +72,31 @@
 }
 
 #shop:last-child {
+    margin-bottom: 0px;
+}
+
+#achievements {
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 330px;
+}
+
+#achievementsItem {
+    background-color: #949494;
+    border-radius: 2px;
+    border: 2px solid #08ebfe;
+    width: 286px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.unlocked {
+    color: blue;
+    float: right;
+}
+
+#achievements:last-child {
     margin-bottom: 0px;
 }
 
@@ -154,6 +181,7 @@
     -moz-transition: opacity 0.5s ease-in;
     -ms-transition: opacity 0.5s ease-in;
     -o-transition: opacity 0.5s ease-in;
+    pointer-events: none;
 }
 
 #achievementName {
