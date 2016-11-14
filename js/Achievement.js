@@ -71,7 +71,7 @@ AchievementManager.prototype.unlock = function(name) {
 
 AchievementManager.prototype.save = function() {
 	for(var ac in this.achievements) {
-		Cookies.set(ac, String(this.achievements[ac].achievement.locked));
+		Cookies.set(ac, String(!this.achievements[ac].achievement.locked));
 	}
 };
 
